@@ -53,7 +53,7 @@ when uploading photo it should be on object name "thing"
 type : post
 
 
-///////////////////////////////
+////////////////////////////////
 to log in from mobile as student by the account that parent create it for her child 
 localhost:3000/student/StudentLogIn
 json body like this :
