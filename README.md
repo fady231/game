@@ -37,7 +37,7 @@ json body like this :
     "stage":"1"
 }
 type : post 
-////////////////////////////////
+///////////////////////////////
 for parent to add question from website that will appear to student in mobile 
 localhost:3000/FSE/FSEinsertQuestion/id
 id:it refer to student id it should be embedded to api url 
