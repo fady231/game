@@ -11,11 +11,12 @@ json body like this :
     "age": "22",
     "phone":"01030298360"
 }
+```
 type : post
+```
 
 
-
-#to log in through website 
+# to log in through website 
 ```sh
 localhost:3000/parent/login
 ```
