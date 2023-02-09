@@ -1,8 +1,8 @@
 ## to create account for parent on website
 
-`
+```
 localhost:3000/parent/create
-`
+```
 `json body like this : 
 {  
     "name": "fady",
@@ -11,9 +11,9 @@ localhost:3000/parent/create
     "age": "22",
     "phone":"01030298360"  
 }`
-`
+```
 type : post
-`
+```
 
 
 # to log in through website 
