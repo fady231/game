@@ -1,4 +1,4 @@
-#to create account for parent on website
+# to create account for parent on website
 
 ```sh
 localhost:3000/parent/create
@@ -28,7 +28,7 @@ json body like this :
 type :post 
 
 
-#to create student account it should be from website after chosing add child 
+# to create student account it should be from website after chosing add child 
 ```sh
 localhost:3000/student/AddChild/id 
 ```
@@ -44,7 +44,7 @@ json body like this :
 }
 type : post 
 
-#for parent to add question from website that will appear to student in mobile 
+# for parent to add question from website that will appear to student in mobile 
 ```sh
 localhost:3000/FSE/FSEinsertQuestion/id
 ```
@@ -62,7 +62,7 @@ type : post
 
 
 
-#to log in from mobile as student by the account that parent create it for her child 
+# to log in from mobile as student by the account that parent create it for her child 
 ```sh
 localhost:3000/student/StudentLogIn
 ```
@@ -73,7 +73,7 @@ json body like this :
 }
 type : post 
 
-#to order question to appear to mobile 
+# to order question to appear to mobile 
 ```sh
 localhost:3000/FSE/FSEtakeQuestion/id
 ```
@@ -85,7 +85,7 @@ json body like this :
 }
 type : get 
 the on request will give you 6 questions(image,unit,lesson,definiton in arabic , definition in english) filter them as you like
-#to retry question 
+# to retry question 
 ```sh
 localhost:3000/FSE/FSEretryQuestion/id
 ```
