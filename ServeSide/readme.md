@@ -1,5 +1,8 @@
-to create account for parent on website
+# #  to create account for parent on website
+
+```sh
 localhost:3000/parent/create
+```
 json body like this : 
 {    
     "name": "fady",
