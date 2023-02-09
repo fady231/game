@@ -3,14 +3,27 @@
 ```
 localhost:3000/parent/create
 ```
+```
 json body like this : 
-{    
+{  ```
+```
     "name": "fady",
+    ```
+    ```
     "mail": "fady2@gmail.com",
+    ```
+    ```
     "password": "(12345678)",
+    ```
+    ```
     "age": "22",
+    ```
+    ```
     "phone":"01030298360"
+    ```
+    ```
 }
+```
 ```
 type : post
 ```
