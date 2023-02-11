@@ -2,7 +2,7 @@ const User = require("../models/parentdb");
 const bcrypt = require("bcrypt");
 
 SignUp = function (req, res, next) {
-  User.find({ userMail: req.body.mail })
+  User.find({ parentMail: req.body.mail })
     .then((resualt) => {
       if (resualt.length < 1) {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
