@@ -21,6 +21,7 @@ AddChild = function (req, res, next) {
                     studentPassword: hash,
                     studentstage: req.body.stage,
                     studentParent: req.params.id,
+                    
                   });
                   student
                     .save()
@@ -28,6 +29,7 @@ AddChild = function (req, res, next) {
                       console.log(student);
                       res.status(200).json({
                         massage: "account successfully created",
+                        info:resualt,
                       });
                     })
                     .catch((err) => {
@@ -40,6 +42,7 @@ AddChild = function (req, res, next) {
             } else {
               res.status(404).json({
                 massage: "this mail is already registered",
+                
               });
             }
           })

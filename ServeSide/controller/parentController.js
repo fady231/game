@@ -1,4 +1,5 @@
 const User = require("../models/parentdb");
+const Student = require("../models/studentdb");
 const bcrypt = require("bcrypt");
 
 SignUp = function (req, res, next) {
@@ -25,6 +26,7 @@ SignUp = function (req, res, next) {
                 console.log(user);
                 res.status(200).json({
                   massage: "account successfully created",
+                  info :resualt
                 });
               })
               .catch((err) => {
@@ -49,20 +51,25 @@ SignUp = function (req, res, next) {
 
 
 
-
 SignIn = function (req, res, next) {
   User.find({ parentMail: req.body.mail })
     .then((user) => {
+  
       if (user.length >= 1) {
         bcrypt
           .compare(req.body.password, user[0].parentPassword)
           .then((resualt) => {
             if (resualt) {
-
-              res.status(200).json({
+              Student.find({ studentParent: user[0]._id}).then((resualt) =>{res.status(200).json({
                 massage: "correct password",
-                info:  user
-              });
+                parent:  user,
+                child :resualt
+              });} ).catch((err) => {
+      res.status(404).json({
+        massage: err,
+      });
+    });
+              
             } else {
               res.status(404).json({
                 massage: "wrong password",
