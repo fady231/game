@@ -26,10 +26,9 @@ AddChild = function (req, res, next) {
                   student
                     .save()
                     .then((resualt) => {
-                      console.log(student);
                       res.status(200).json({
                         massage: "account successfully created",
-                        info:resualt,
+                        studentID:resualt._id,
                       });
                     })
                     .catch((err) => {
@@ -70,7 +69,7 @@ StudenSignIn = function (req, res, next) {
             if (resualt) {
               res.status(200).json({
                 massage: "correct password",
-                info:student
+                student_id:student[0]._id
               });
             } else {
               res.status(404).json({
