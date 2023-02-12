@@ -26,7 +26,7 @@ SignUp = function (req, res, next) {
 
                 res.status(200).json({
                   massage: "account successfully created",
-                  parentID: resualt._id
+                  parentID: resualt
 
                 });
               })
@@ -66,8 +66,8 @@ SignIn = function (req, res, next) {
                   case 1:
                     res.status(200).json({
                       massage: "correct password",
-                      parentID: user[0]._id,
-                      studen1ID: resualt[0]._id,
+
+                      info: { parent: user, student1: resualt[0] },
 
 
                     });
@@ -77,9 +77,9 @@ SignIn = function (req, res, next) {
                   case 2:
                     res.status(200).json({
                       massage: "correct password",
-                      parentID: user[0]._id,
-                      studen1ID: resualt[0]._id,
-                      studen2ID: resualt[1]._id,
+                      info: { parent: user, student1: resualt[0], student2: resualt[1] },
+
+
 
 
                     });
@@ -89,10 +89,8 @@ SignIn = function (req, res, next) {
                   case 3:
                     res.status(200).json({
                       massage: "correct password",
-                      parentID: user[0]._id,
-                      studen1ID: resualt[0]._id,
-                      studen2ID: resualt[1]._id,
-                      studen3ID: resualt[2]._id,
+
+                      info: [{ parent: user, student1: resualt[0], student2: resualt[1], student3: resualt[2] }],
 
 
                     });
@@ -100,15 +98,12 @@ SignIn = function (req, res, next) {
                     break;
 
                   case 4:
+
                     res.status(200).json({
+
                       massage: "correct password",
-                      parentID: user[0]._id,
-                      studen1ID: resualt[0]._id,
-                      studen2ID: resualt[1]._id,
-                      studen3ID: resualt[2]._id,
-                      studen4ID: resualt[3]._id,
 
-
+                      info: [{ parent: user,student1: resualt[0], student2: resualt[1], student3: resualt[2], student4: resualt[3]} ],
                     });
 
                     break;
@@ -116,12 +111,8 @@ SignIn = function (req, res, next) {
                   case 5:
                     res.status(200).json({
                       massage: "correct password",
-                      parentID: user[0]._id,
-                      studen1ID: resualt[0]._id,
-                      studen2ID: resualt[1]._id,
-                      studen3ID: resualt[2]._id,
-                      studen4ID: resualt[3]._id,
-                      studen5ID: resualt[4]._id,
+
+                      info: { parent: user, student1: resualt[0], student2: resualt[1], student3: resualt[2], student4: resualt[3], student5: resualt[4] },
 
                     });
 
@@ -131,7 +122,7 @@ SignIn = function (req, res, next) {
               }).catch((err) => {
                 res.status(200).json({
                   massage: "correct password",
-                  parentID: user[0]._id
+                  info: { parent: user }
                 });
               });
 
