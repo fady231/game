@@ -26,7 +26,7 @@ SignUp = function (req, res, next) {
 
                 res.status(200).json({
                   massage: "account successfully created",
-                  parentID: resualt
+                  parent: resualt
 
                 });
               })
@@ -61,7 +61,7 @@ SignIn = function (req, res, next) {
           .compare(req.body.password, user[0].parentPassword)
           .then((resualt) => {
             if (resualt) {
-              Student.find({ studentParent: { $in: user[0]._id } }).then((resualt) => {
+              Student.find({ studentParent: user[0]._id  }).then((resualt) => {
                 switch (resualt.length) {
                   case 1:
                     res.status(200).json({
@@ -117,6 +117,12 @@ SignIn = function (req, res, next) {
                     });
 
                     break;
+                    default:
+                      res.status(200).json({
+                        massage: "correct password",
+                        info: { parent: user }
+                      });
+                      break;
 
                 }
               }).catch((err) => {
