@@ -22,13 +22,13 @@ const FirstStadgeEnSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  Student: {
+  Parent: {
     type: String,
-    required: false,
+    required: true,
   },
-  Token: {
+  Stadge: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 

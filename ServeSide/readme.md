@@ -46,16 +46,16 @@ type : post
 ## for parent to add question from website that will appear to student in mobile 
 ```
 localhost:3000/FSE/FSEinsertQuestion/id
-id:it refer to student id it should be embedded to api url 
+id:it refer to parent id it should be embedded to api url 
 json body like this :
-{    
+ {    
     "unit": "1",
     "lesson": "1",
+    "stadge":"1",
     "defintionen":"dog",
-    "defintionac":"??? "
-   
+    "defintionac":"كلب ", 
+    "image":"lkmdmfkdikfdikf"
 }
-
 type : post
 ```
 
@@ -76,10 +76,13 @@ type : post
 localhost:3000/FSE/FSEtakeQuestion/id
 id:it refer to student id it should be embedded to api url 
 json body like this : 
+
 {
-    "unit":1,
-    "lesson":1
+      "unit": "1",
+    "lesson": "1",
+    "stadge":"1"
 }
+
 type : get 
 ```
 ## the on request will give you 6 questions(image,unit,lesson,definiton in arabic , definition in english) filter them as you like

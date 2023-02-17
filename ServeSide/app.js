@@ -19,7 +19,6 @@ app.use("/FSE", FSE);
 
 mongoose.connect(
  //"mongodb://localhost:27017",
- //"mongodb+srv://FADY:01030298360@cluster0.ovzea8j.mongodb.net/test",
  "mongodb+srv://ahmed:7IxlE70oZXGK8WVz@cluster0.urdmbgm.mongodb.net/questions?retryWrites=true&w=majority",
   {
     useNewUrlparser: true,

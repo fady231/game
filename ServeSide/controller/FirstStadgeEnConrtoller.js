@@ -55,34 +55,9 @@ FSEinsertQuestion = function (req, res, next) {
     });
 };
 
+
+
 FSEtakeQuestion = function (req, res, next) {
-  FSEquestion.find({
-    Stadge:req.body.stadge,
-    Parent: req.params.id,
-    Lesson: req.body.lesson,
-    Unit: req.body.unit,
-  })
-    .limit(6)
-    .then((resualt) => {
-      if (resualt.length < 1) {
-        res.status(404).json({
-          question: "sorry no inserting question till yet ",
-        });
-      } else {
-        res.status(200).json({
-          question: resualt,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(404).json({
-        massage: err,
-      });
-    });
-};
-
-
-FSEtakeAllQuestion = function (req, res, next) {
   FSEquestion.find({
     Stadge:req.body.stadge,
     Parent: req.params.id,
@@ -147,7 +122,6 @@ FSEdeleteQuesttion = function (req, res, next) {};
 module.exports = {
   FSEinsertQuestion: FSEinsertQuestion,
   FSEtakeQuestion: FSEtakeQuestion,
-  FSEtakeAllQuestion:FSEtakeAllQuestion,
   FSEupdateQuesttion: FSEupdateQuesttion,
   FSEdeleteQuesttion: FSEdeleteQuesttion,
   upload: upload,
