@@ -37,7 +37,7 @@ FSEinsertQuestion = function (req, res, next) {
     DefintioninAc: req.body.defintionac,
     DefintioninEn: req.body.defintionen,
 
-    Image: fs.readFileSync("FSEimage/" + req.file.filename),
+    Image:req.body.image// fs.readFileSync("FSEimage/" + req.file.filename),
   });
 
   question
@@ -49,7 +49,7 @@ FSEinsertQuestion = function (req, res, next) {
     })
     .catch((err) => {
       res.status(404).json({
-        massage: "error",
+        massage: err,
       });
     });
 };

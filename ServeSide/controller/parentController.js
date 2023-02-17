@@ -61,8 +61,17 @@ SignIn = function (req, res, next) {
           .compare(req.body.password, user[0].parentPassword)
           .then((resualt) => {
             if (resualt) {
-              Student.find({ studentParent: user[0]._id  }).then((resualt) => {
-                switch (resualt.length) {
+              Student.find({ studentParent: user[0]._id  }).then((children) => {
+                
+                res.status(200).json({
+                  massage: "correct password",
+                  parent:user[0],  children
+                   
+
+
+                });
+
+             /*   switch (resualt.length) {
                   case 1:
                     res.status(200).json({
                       massage: "correct password",
@@ -124,7 +133,7 @@ SignIn = function (req, res, next) {
                       });
                       break;
 
-                }
+                }*/
               }).catch((err) => {
                 res.status(200).json({
                   massage: "correct password",
