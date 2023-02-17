@@ -74,7 +74,7 @@ type : post
 ## to order question to appear to mobile 
 ```
 localhost:3000/FSE/FSEtakeQuestion/id
-id:it refer to student id it should be embedded to api url 
+id:it refer to parent id it should be embedded to api url 
 json body like this : 
 
 {
@@ -85,7 +85,7 @@ json body like this :
 
 type : get 
 ```
-## the on request will give you 6 questions(image,unit,lesson,definiton in arabic , definition in english) filter them as you like
+
 ```
 to retry question 
 localhost:3000/FSE/FSEretryQuestion/id
