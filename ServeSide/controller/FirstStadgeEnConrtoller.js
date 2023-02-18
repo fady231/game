@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     call(null, "./FSEimage/");
   },
   filename: function (req, file, call) {
-    call(null, `FSE${new Date().toDateString()}.png`);
+    call(null, `FSE_${req.body.defintionen+file.originalname}`);
   },
 });
 
@@ -37,8 +37,7 @@ FSEinsertQuestion = function (req, res, next) {
     Stadge:req.body.stadge,
     DefintioninAc: req.body.defintionac,
     DefintioninEn: req.body.defintionen,
-
-    Image:req.body.image// fs.readFileSync("FSEimage/" + req.file.filename),
+    Image:req.file.path// fs.readFileSync("FSEimage/" + req.file.filename),
   });
 
   question

@@ -10,7 +10,7 @@ const FSE = require("./routes/FirstStadgeEn");
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, "/FSEimage")));
+app.use('/FSEimage',express.static(path.join('FSEimage')));
 app.use("/student", student);
 app.use("/parent", parents);
 app.use("/FSE", FSE);

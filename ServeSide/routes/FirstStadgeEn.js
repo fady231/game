@@ -9,7 +9,7 @@ const { updateMany } = require('../models/FirstStadgeEndb');
 
 
 
-router.post('/FSEinsertQuestion/:id', control.upload.single('thing'),control.FSEinsertQuestion );
+router.post('/FSEinsertQuestion/:id', control.upload.single('image'),control.FSEinsertQuestion );
 
 router.post('/FSEtakeQuestion/:id', control.FSEtakeQuestion);
 
