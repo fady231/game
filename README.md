@@ -94,10 +94,11 @@ id:it refer to student id it should be embedded to api url
 json body like this : 
 {
     "unit":1,
-    "lesson":1
+    "lesson":1,
+    "stadge":1
 }
 
-type : get 
+type : post 
 the on request will give you 6 questions(image,unit,lesson,definiton in arabic , definition in english) filter them as you like
 ```
 ## to retry question 
