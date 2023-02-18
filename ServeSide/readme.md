@@ -83,7 +83,7 @@ json body like this :
     "stadge":"1"
 }
 
-type : get 
+type : post 
 ```
 
 ```
