@@ -11,7 +11,7 @@ const { updateMany } = require('../models/FirstStadgeEndb');
 
 router.post('/FSEinsertQuestion/:id', control.upload.single('thing'),control.FSEinsertQuestion );
 
-router.get('/FSEtakeQuestion/:id', control.FSEtakeQuestion);
+router.post('/FSEtakeQuestion/:id', control.FSEtakeQuestion);
 
 router.get('/FSEretryQuestion/:id',control.FSEretryQuestion);
 router.patch('/FSEupdateQuesttion/:id',control.FSEupdateQuesttion);
