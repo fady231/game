@@ -1,7 +1,7 @@
 const FSEquestion = require("../models/FirstStadgeEndb");
 const Student = require("../models/studentdb");
 const multer = require("multer");
-const fs = require("file-system");
+
 /*
 const fileFilter = function(req,file,call){
   if(file.mimetype==='image/png')
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     call(null, "./FSEimage/");
   },
   filename: function (req, file, call) {
-    call(null, `FSE_${req.body.defintionen+file.originalname}`);
+    call(null, `FSE_${req.body.defintionen+new Date().toDateString()}.png`);
   },
 });
 
@@ -37,7 +37,7 @@ FSEinsertQuestion = function (req, res, next) {
     Stadge:req.body.stadge,
     DefintioninAc: req.body.defintionac,
     DefintioninEn: req.body.defintionen,
-    Image:req.file.path// fs.readFileSync("FSEimage/" + req.file.filename),
+    Image:req.file.path
   });
 
   question

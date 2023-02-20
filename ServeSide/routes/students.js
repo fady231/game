@@ -13,8 +13,9 @@ router.post('/AddChild/:id', control.AddChild );
 
 router.post('/StudentLogIn', control.StudenSignIn);
 
-
-router.patch('/SUpdatePassword/:id',control.UpdatePassword);
+router.patch('/StudenUpdateInfo/:id', control.upload.single('image'),control.StudenUpdateInfo);
+router.patch('/StudenUpdatePic/:id', control.upload.single('image'),control.StudenUpdatePic);
+router.patch('/StudentUpdatePassword/:id',control.UpdatePassword);
 
 router.delete('/SdeleteAccount/:id',control.deleteAccount);
 

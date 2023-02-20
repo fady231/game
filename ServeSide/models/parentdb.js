@@ -13,6 +13,10 @@ const ParentSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    parentPic: {
+        type: String,
+        required: false
+    },
     parentAge: {
         type: Number,
         min: 1, max: 99

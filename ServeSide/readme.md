@@ -47,15 +47,12 @@ type : post
 ```
 localhost:3000/FSE/FSEinsertQuestion/id
 id:it refer to parent id it should be embedded to api url 
-json body like this :
- {    
-    "unit": "1",
-    "lesson": "1",
-    "stadge":"1",
-    "defintionen":"dog",
-    "defintionac":"كلب ", 
-    "image":"lkmdmfkdikfdikf"
-}
+formdata.append("stadge", "1");
+formdata.append("unit", "1");
+formdata.append("lesson", "1");
+formdata.append("defintionac", "اهلاوي");
+formdata.append("defintionen", "donkey");
+formdata.append("image", fileInput.files[0], "/C:/Users/f0/Desktop/grad_pro/game/donkey.jpg");
 type : post
 ```
 
@@ -86,10 +83,10 @@ json body like this :
 type : post 
 ```
 
+## to retry question 
 ```
-to retry question 
 localhost:3000/FSE/FSEretryQuestion/id
-id:it refer to student id it should be embedded to api url 
+id:it refer to parent id it should be embedded to api url 
 json body 
 {
     "id1":"6394e708b273ac393b1576af",
@@ -101,4 +98,14 @@ json body
 
 }
 type : get
+```
+## to update info for student 
+```
+localhost:3000/student/StudenUpdateInfo/63f37b6df87643fa48278b69
+id:it refer to student id it should be embedded to api url 
+forma data  like this :
+formdata.append("image", fileInput.files[0], "/C:/Users/f0/Desktop/grad_pro/game/cow.png");
+formdata.append("newusername", "abdallh");
+formdata.append("newname", "abdallh");
+formdata.append("newstage", "1");
 ```

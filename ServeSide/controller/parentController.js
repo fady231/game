@@ -1,6 +1,26 @@
 const User = require("../models/parentdb");
 const Student = require("../models/studentdb");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
+
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, call) {
+    call(null, "./ParentProfilePic/");
+  },
+  filename: function (req, file, call) {
+    call(null, `${(file.originalname + new Date().toDateString())}.png`);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 8,
+  },
+});
+
 
 SignUp = function (req, res, next) {
   User.find({ parentMail: req.body.mail })
@@ -18,7 +38,7 @@ SignUp = function (req, res, next) {
               parentName: req.body.name,
               parentPassword: hash,
               parentPhoneNumber: req.body.phone,
-
+              parentPic: 'Profile/defualt.png'
             });
             user
               .save()
@@ -61,79 +81,12 @@ SignIn = function (req, res, next) {
           .compare(req.body.password, user[0].parentPassword)
           .then((resualt) => {
             if (resualt) {
-              Student.find({ studentParent: user[0]._id  }).then((children) => {
-                
+              Student.find({ studentParent: user[0]._id }).then((children) => {
+
                 res.status(200).json({
                   massage: "correct password",
-                  parent:user[0],  children
-                   
-
-
+                  parent: user[0], children
                 });
-
-             /*   switch (resualt.length) {
-                  case 1:
-                    res.status(200).json({
-                      massage: "correct password",
-
-                      info: { parent: user, student1: resualt[0] },
-
-
-                    });
-                    break;
-
-
-                  case 2:
-                    res.status(200).json({
-                      massage: "correct password",
-                      info: { parent: user, student1: resualt[0], student2: resualt[1] },
-
-
-
-
-                    });
-
-                    break;
-
-                  case 3:
-                    res.status(200).json({
-                      massage: "correct password",
-
-                      info: [{ parent: user, student1: resualt[0], student2: resualt[1], student3: resualt[2] }],
-
-
-                    });
-
-                    break;
-
-                  case 4:
-
-                    res.status(200).json({
-
-                      massage: "correct password",
-
-                      info: [{ parent: user,student1: resualt[0], student2: resualt[1], student3: resualt[2], student4: resualt[3]} ],
-                    });
-
-                    break;
-
-                  case 5:
-                    res.status(200).json({
-                      massage: "correct password",
-
-                      info: { parent: user, student1: resualt[0], student2: resualt[1], student3: resualt[2], student4: resualt[3], student5: resualt[4] },
-
-                    });
-
-                    break;
-                    default:
-                      res.status(200).json({
-                        massage: "correct password",
-                        info: { parent: user }
-                      });
-                      break;
-
-                }*/
               }).catch((err) => {
                 res.status(200).json({
                   massage: "correct password",
@@ -165,18 +118,56 @@ SignIn = function (req, res, next) {
     });
 };
 
-UpdatePassword = function (req, res, next) {
-  bcrypt
-    .hash(req.body.password, 10)
-    .then((hash) => {
-      const user = {
-        userName: req.body.name,
-        userPassword: hash,
+ParentUpdateInfo = function (req, res, next) {
+  User.find({ _id: req.params.id })
+    .then((student) => {
+      User.find({ parentMail: req.body.newmail })
+        .then((resualt) => {
+          if (resualt.length < 1) {
+            const student = {
+              parentMail: req.body.newmail,
+              parentName: req.body.newname,
+              parentAge: req.body.newage,
+              parentPhoneNumber:req.body.newphonenumber,
+            };
+            User.updateOne({ $set: student })
+              .then((resualt) => {
+                res.status(202).json({
+                  massage: "updated sucssfully",
+                });
+              })
+              .catch((err) => {
+                res.status(404).json({
+                  massage: err,
+                });
+              });
+          }
+          else {
+            res.status(404).json({
+              massage: "mail already exists",
+            });
+          }
+        })
+    })
+    .catch((err) => {
+      res.status(404).json({
+        massage: "error in student id ",
+      });
+    });
+}
+
+
+ParentUpdatePic = function (req, res, next) {
+  User.find({ _id: req.params.id })
+    .then((resualt) => {
+      const parent = {
+ 
+        parentPic: req.file.path
       };
-      User.updateOne({ _id: req.params.id }, { $set: user })
+      User.updateOne({ $set: parent })
         .then((resualt) => {
           res.status(202).json({
-            massage: "password updated sucssfully",
+            massage: "updated sucssfully",
           });
         })
         .catch((err) => {
@@ -187,10 +178,46 @@ UpdatePassword = function (req, res, next) {
     })
     .catch((err) => {
       res.status(404).json({
-        massage: err,
+      massage: "error in parent id ",
+      });
+    });
+}
+
+
+UpdatePassword = function (req, res, next) {
+  User.find({ _id: req.params.id })
+    .then((resualt) => {
+      bcrypt
+        .hash(req.body.newpassword, 10)
+        .then((hash) => {
+          const parent = {
+            parentPassword: hash,
+          };
+          User.updateOne({ $set: parent })
+            .then((resualt) => {
+              res.status(202).json({
+                massage: "password updated sucssfully",
+              });
+            })
+            .catch((err) => {
+              res.status(404).json({
+                massage: err,
+              });
+            });
+        })
+        .catch((err) => {
+          res.status(404).json({
+            massage: err,
+          });
+        });
+    })
+    .catch((err) => {
+      res.status(404).json({
+        massage: "error in parent id ",
       });
     });
 };
+
 
 deleteAccount = function (req, res, next) {
   User.findOneAndDelete({ _id: req.params.id })
@@ -210,6 +237,9 @@ deleteAccount = function (req, res, next) {
 module.exports = {
   SignIn: SignIn,
   SignUp: SignUp,
+  ParentUpdateInfo: ParentUpdateInfo,
+  ParentUpdatePic:ParentUpdatePic,
   UpdatePassword: UpdatePassword,
   deleteAccount: deleteAccount,
+  upload: upload
 };

@@ -18,6 +18,10 @@ const StudentSchema = mongoose.Schema({
     min: 1,
     max: 99,
     required: false,
+  }, studentPic: {
+    type: String,
+  
+    required: false,
   },
   studentstage: {
     type: Number,
