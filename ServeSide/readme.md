@@ -101,11 +101,52 @@ type : get
 ```
 ## to update info for student 
 ```
-localhost:3000/student/StudenUpdateInfo/63f37b6df87643fa48278b69
+localhost:3000/student/StudenUpdateInfo/id
 id:it refer to student id it should be embedded to api url 
 forma data  like this :
-formdata.append("image", fileInput.files[0], "/C:/Users/f0/Desktop/grad_pro/game/cow.png");
 formdata.append("newusername", "abdallh");
 formdata.append("newname", "abdallh");
 formdata.append("newstage", "1");
+type:patch
+```
+## to update pic for student 
+```
+localhost:3000/student/StudenUpdatePic/id
+id:it refer to student id it should be embedded to api url 
+formdata.append("image", fileInput.files[0], "/C:/Users/f0/Desktop/grad_pro/game/jiraff.jpg");
+type:patch
+```
+## to update password for student 
+```
+localhost:3000/student/StudentUpdatePassword/id
+{
+"newpassword":"fady"
+}
+type:patch
+```
+## to update info for parent 
+```
+localhost:3000/parent/ParentUpdateInfo/id
+id:it refer to parent id it should be embedded to api url 
+forma data  like this :
+formdata.append("newmail", "fady@gmail.com");
+formdata.append("newname", "fady");
+formdata.append("newphonenumber", "1020");
+formdata.append("newage", "5");
+type:patch
+```
+## to update pic for parent 
+```
+localhost:3000/parent/ParentUpdatePic/id
+id:it refer to parent id it should be embedded to api url 
+formdata.append("image", fileInput.files[0], "/C:/Users/f0/Desktop/grad_pro/game/messi.png");
+type:patch
+```
+## to update password for parent 
+```
+localhost:3000/parent/ParentUpdatePassword/id
+{
+"newpassword":"fady"
+}
+type:patch
 ```
