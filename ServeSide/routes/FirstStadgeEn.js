@@ -16,5 +16,5 @@ router.post('/FSEtakeQuestion/:id', control.FSEtakeQuestion);
 router.get('/FSEretryQuestion/:id',control.FSEretryQuestion);
 router.patch('/FSEupdateQuesttion/:id',control.FSEupdateQuesttion);
 router.delete('/FSEdeleteQuesttion/:id',control.FSEdeleteQuesttion);
-
+router.post('/feedback', control.FSEQuestionFeedback);
 module.exports = router;

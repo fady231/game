@@ -1,4 +1,5 @@
 const FSEquestion = require("../models/FirstStadgeEndb");
+const FBQuestion = require ("../models/Feedback")
 const Student = require("../models/studentdb");
 const multer = require("multer");
 
@@ -118,6 +119,19 @@ FSEupdateQuesttion = function (req, res, next) {};
 
 FSEdeleteQuesttion = function (req, res, next) {};
 
+FSEQuestionFeedback = function (req, res,) {
+  const FbQuestion = new FBQuestion(req.body);
+  console.log("🚀 ~ file: FirstStadgeEnConrtoller.js:124 ~ FbQuestion", FbQuestion)
+  
+  FbQuestion.save((err) =>{
+    if (err){
+      res.status(500).send(err);
+    } else{
+      res.status(200).send('Feedback inserted successfully!');
+    }
+  }); 
+};
+
 module.exports = {
   FSEinsertQuestion: FSEinsertQuestion,
   FSEtakeQuestion: FSEtakeQuestion,
@@ -125,4 +139,5 @@ module.exports = {
   FSEdeleteQuesttion: FSEdeleteQuesttion,
   upload: upload,
   FSEretryQuestion: FSEretryQuestion,
+  FSEQuestionFeedback: FSEQuestionFeedback,
 };
