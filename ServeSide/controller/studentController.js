@@ -52,7 +52,7 @@ AddChild = function (req, res, next) {
                   .then((resualt) => {
                     res.status(200).json({
                       massage: "account successfully created",
-                      student_id: resualt._id
+                      student: resualt
                     });
                   })
                   .catch((err) => {
