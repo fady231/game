@@ -13,7 +13,7 @@ const FeedbackEnSchema = mongoose.Schema({
     questions: {
         type: [],
         required: true,
-        word_id:{
+        question_id:{
             type: String,
             required: true,
         },

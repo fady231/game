@@ -119,7 +119,7 @@ FSEupdateQuesttion = function (req, res, next) {};
 
 FSEdeleteQuesttion = function (req, res, next) {};
 
-FSEQuestionFeedback = function (req, res,) {
+FSEPOSTQuestionsFeedback = function (req, res, next) {
   const FbQuestion = new FBQuestion(req.body);
   console.log("🚀 ~ file: FirstStadgeEnConrtoller.js:124 ~ FbQuestion", FbQuestion)
   
@@ -132,6 +132,23 @@ FSEQuestionFeedback = function (req, res,) {
   }); 
 };
 
+FSEGETQuestionsFeedback = function(req, res, next){
+  const child_id = req.params.child_id;
+  FBQuestion.find({child_id},function(err, doc){
+    if(err) {
+      return next(err);
+    }
+
+    if(!doc){
+      return res.status(404).send({error: "Questions feedback not found!"});
+    }
+
+    console.log(doc);
+    // Send the questions array as the response
+    res.status(200).json(doc);
+  });
+};
+
 module.exports = {
   FSEinsertQuestion: FSEinsertQuestion,
   FSEtakeQuestion: FSEtakeQuestion,
@@ -139,5 +156,6 @@ module.exports = {
   FSEdeleteQuesttion: FSEdeleteQuesttion,
   upload: upload,
   FSEretryQuestion: FSEretryQuestion,
-  FSEQuestionFeedback: FSEQuestionFeedback,
+  FSEPOSTQuestionsFeedback: FSEPOSTQuestionsFeedback,
+  FSEGETQuestionsFeedback: FSEGETQuestionsFeedback,
 };
