@@ -7,6 +7,7 @@ const cors = require('cors');
 const student = require("./routes/students");
 const parents = require("./routes/parents");
 const FSE = require("./routes/FirstStadgeEn");
+const data = require("./routes/dataRouter")
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -17,6 +18,7 @@ app.use('/ParentProfilePic',express.static(path.join('ParentProfilePic')));
 app.use("/student", student);
 app.use("/parent", parents);
 app.use("/FSE", FSE);
+app.use("/data", data);
 
 
 
