@@ -527,7 +527,8 @@ id:it refer to parent id it should be embedded to api url
 
 type : post 
 ```
-
+<details>
+  <summary>Click to expand/collapse</summary>
 ## to retry question 
 ```
 [machine host]/FSE/FSEretryQuestion/id
@@ -605,5 +606,5 @@ id:it refer to parent id it should be embedded to api url
 formdata.append("image", fileInput.files[0], "/C:/Users/f0/Desktop/grad_pro/game/messi.png");
 type:patch
 ```
-
+</details>
 ```
