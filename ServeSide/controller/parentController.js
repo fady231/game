@@ -2,15 +2,17 @@ const User = require("../models/parentdb");
 const Student = require("../models/studentdb");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 
 
 const storage = multer.diskStorage({
-  destination: function (req, file, call) {
-    call(null, "./ParentProfilePic/");
+  destination: function (req, file, cb) {
+    cb(null, "./ParentProfilePic/");
   },
-  filename: function (req, file, call) {
-    call(null, `${(file.originalname + new Date().toDateString())}.png`);
+  filename: function (req, file, cb) {
+    cb(null, `${file.originalname}_${new Date().getTime()}.png`);
   },
 });
 
@@ -21,15 +23,15 @@ const upload = multer({
   },
 });
 
-
 SignUp = function (req, res, next) {
-  User.find({ parentMail: req.body.mail })
-    .then((resualt) => {
-      if (resualt.length < 1) {
+  User.findOne({ parentMail: req.body.mail })
+    .select('parentName parentMail _id parentPhoneNumber parentAge')
+    .then((result) => {
+      if (!result) {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
           if (err) {
             res.status(404).json({
-              massage: err,
+              message: err,
             });
           } else {
             const user = new User({
@@ -38,172 +40,146 @@ SignUp = function (req, res, next) {
               parentName: req.body.name,
               parentPassword: hash,
               parentPhoneNumber: req.body.phone,
-              parentPic: 'Profile/defualt.png'
+              profilePictureUrl: "Profile/default.png",
             });
             user
               .save()
-              .then((resualt) => {
-
+              .then((result) => {
                 res.status(200).json({
-                  massage: "account successfully created",
-                  parent: resualt
-
+                  
+                  parent: {
+                    status: "account successfully created",
+                    parentID: result._id,
+                    parentName: result.parentName,
+                    parentMail: result.parentMail,
+                    parentPhoneNumber: result.parentPhoneNumber,
+                    parentAge: result.parentAge,
+                  },
                 });
               })
               .catch((err) => {
                 res.status(404).json({
-                  massage: err,
+                  message: err,
                 });
               });
           }
         });
       } else {
-        res.status(404).json({
-          massage: "this mail is already registered",
+        res.status(409).json({
+          parent: {
+            status: "this mail is already registered",
+          },
+          
         });
       }
     })
     .catch((err) => {
       res.status(404).json({
-        massage: err,
+        message: err,
       });
     });
 };
+
+
 
 
 
 SignIn = function (req, res, next) {
-  User.find({ parentMail: req.body.mail })
+  User.findOne({ parentMail: req.body.mail })
+    .select('parentName parentPassword parentMail profilePictureUrl _id parentPhoneNumber parentAge')
     .then((user) => {
-
-      if (user.length >= 1) {
-        bcrypt
-          .compare(req.body.password, user[0].parentPassword)
-          .then((resualt) => {
-            if (resualt) {
-              Student.find({ studentParent: user[0]._id }).then((children) => {
-
-                res.status(200).json({
-                  massage: "correct password",
-                  parent: user[0], children
-                });
-              }).catch((err) => {
-                res.status(200).json({
-                  massage: "correct password",
-                  info: { parent: user }
-                });
-              });
-
-            } else {
-              res.status(404).json({
-                massage: "wrong password",
-              });
-            }
-          })
-          .catch((err) => {
-            res.status(404).json({
-              massage: err,
-            });
-          });
-      } else {
-        res.status(404).json({
-          massage: "wrong mail",
+      if (!user) {
+        return res.status(404).json({
+          parent: {
+            status: "wrong mail",
+          }
         });
       }
-    })
-    .catch((err) => {
-      res.status(404).json({
-        massage: err,
-      });
-    });
-};
 
-ParentUpdateInfo = function (req, res, next) {
-  User.find({ _id: req.params.id })
-    .then((student) => {
-      User.find({ parentMail: req.body.newmail })
-        .then((resualt) => {
-          if (resualt.length < 1) {
-            const student = {
-              parentMail: req.body.newmail,
-              parentName: req.body.newname,
-              parentAge: req.body.newage,
-              parentPhoneNumber:req.body.newphonenumber,
-            };
-            User.updateOne({ $set: student })
-              .then((resualt) => {
-                res.status(202).json({
-                  massage: "updated sucssfully",
-                });
-              })
-              .catch((err) => {
-                res.status(404).json({
-                  massage: err,
-                });
-              });
-          }
-          else {
-            res.status(404).json({
-              massage: "mail already exists",
+      bcrypt.compare(req.body.password, user.parentPassword)
+        .then((isMatch) => {
+          if (!isMatch) {
+            return res.status(404).json({
+              parent: {
+                status: "wrong password",
+              }
             });
           }
-        })
-    })
-    .catch((err) => {
-      res.status(404).json({
-        massage: "error in student id ",
-      });
-    });
-}
 
+          Student.find({ studentParent: user._id })
+            .select('studentName studentUserName studentAge studentPic studentGrade')
+            .then((children) => {
+              const responseData = {
+                parent: {
+                  status: "correct password",
+                  parentID: user._id,
+                  parentName: user.parentName,
+                  parentMail: user.parentMail,
+                  parentPhoneNumber: user.parentPhoneNumber,
+                  parentAge: user.parentAge,
+                  parentProfilePic:user.profilePictureUrl
+                },
+                children: children.map(child => ({ studentID: child._doc._id, ...child._doc, _id: undefined }))
+              };
 
-ParentUpdatePic = function (req, res, next) {
-  User.find({ _id: req.params.id })
-    .then((resualt) => {
-      const parent = {
- 
-        parentPic: req.file.path
-      };
-      User.updateOne({ $set: parent })
-        .then((resualt) => {
-          res.status(202).json({
-            massage: "updated sucssfully",
-          });
-        })
-        .catch((err) => {
-          res.status(404).json({
-            massage: err,
-          });
-        });
-    })
-    .catch((err) => {
-      res.status(404).json({
-      massage: "error in parent id ",
-      });
-    });
-}
-
-
-UpdatePassword = function (req, res, next) {
-  User.find({ _id: req.params.id })
-    .then((resualt) => {
-      bcrypt
-        .hash(req.body.newpassword, 10)
-        .then((hash) => {
-          const parent = {
-            parentPassword: hash,
-          };
-          User.updateOne({ $set: parent })
-            .then((resualt) => {
-              res.status(202).json({
-                massage: "password updated sucssfully",
-              });
+              res.status(200).json(responseData);
             })
             .catch((err) => {
               res.status(404).json({
                 massage: err,
               });
             });
+        })
+        .catch((err) => {
+          res.status(404).json({
+            massage: "err",
+          });
+        });
+    })
+    .catch((err) => {
+      res.status(404).json({
+        massage: err,
+      });
+    });
+};
+
+
+
+
+
+
+
+ParentUpdate = function (req, res, next) {
+  User.find({ _id: req.params.id })
+    .then((user) => {
+      User.find({ parentMail: req.body.newmail })
+        .then((result) => {
+          if (result.length < 1 || (result.length === 1 && result[0]._id.equals(req.params.id))) {
+            const parent = {
+              parentMail: req.body.newmail,
+              parentName: req.body.newname,
+              parentAge: req.body.newage,
+              parentPhoneNumber: req.body.newphonenumber,
+            };
+            if (req.file) {
+              parent.parentPic = req.file.path;
+            }
+            User.updateOne({ $set: parent })
+              .then((result) => {
+                res.status(202).json({
+                  massage: "updated successfully",
+                });
+              })
+              .catch((err) => {
+                res.status(404).json({
+                  massage: err,
+                });
+              });
+          } else {
+            res.status(404).json({
+              massage: "mail already exists",
+            });
+          }
         })
         .catch((err) => {
           res.status(404).json({
@@ -216,30 +192,87 @@ UpdatePassword = function (req, res, next) {
         massage: "error in parent id ",
       });
     });
+}
+
+
+
+/*
+
+const updatePassword = async (req, res, next) => {
+  try {
+    // Find the user by their email
+    const user = await User.findOne({ parentMail: req.body.email });
+
+    // If the user doesn't exist, return an error
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Generate a random token
+    const token = crypto.randomBytes(20).toString('hex');
+
+    // Update the user's reset token and expiration date
+    user.resetToken = token;
+    user.resetTokenExpiration = Date.now() + 3600000; // Token will expire in 1 hour
+
+    // Save the user's updated data
+    await user.save();
+
+    // Send an email to the user with a link to reset their password
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'your_email_address@gmail.com',
+        pass: 'your_email_password',
+      },
+    });
+
+    const mailOptions = {
+      from: 'your_email_address@gmail.com',
+      to: user.parentMail,
+      subject: 'Password Reset Request',
+      html: `
+        <p>You are receiving this email because you (or someone else) has requested a password reset for your account.</p>
+        <p>Please click on the following link, or paste it into your browser to complete the process:</p>
+        <a href="http://${req.headers.host}/reset/${token}">Reset Password</a>
+        <p>This link will expire in 1 hour.</p>
+        <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    // Return a success message
+    res.status(200).json({ message: 'Password reset email sent' });
+  } catch (error) {
+    // Return an error message
+    res.status(500).json({ message: error.message });
+  }
 };
+*/
 
 
 deleteAccount = function (req, res, next) {
   User.findOneAndDelete({ _id: req.params.id })
-    .then((resualt) => {
+    .then((result) => {
       res.status(202).json({
-        massage: "account sucssufully deleted",
+        message: "account successfully deleted",
       });
     })
     .catch((err) => {
       res.status(404).json({
-        massage: err,
+        message: err,
       });
     });
 };
 
 
+
 module.exports = {
   SignIn: SignIn,
   SignUp: SignUp,
-  ParentUpdateInfo: ParentUpdateInfo,
-  ParentUpdatePic:ParentUpdatePic,
-  UpdatePassword: UpdatePassword,
+  ParentUpdate: ParentUpdate,
+  //UpdatePassword: UpdatePassword,
   deleteAccount: deleteAccount,
   upload: upload
 };

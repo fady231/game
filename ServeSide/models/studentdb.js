@@ -23,7 +23,7 @@ const StudentSchema = mongoose.Schema({
   
     required: false,
   },
-  studentstage: {
+  studentGrade: {
     type: Number,
     required: true,
   },
@@ -33,9 +33,9 @@ const StudentSchema = mongoose.Schema({
     required: false,
   },
   studentParent: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
 });
-
+StudentSchema.index({ studentUserName: 1, studentParent: 1 }, { unique: true });
 module.exports = mongoose.model("students", StudentSchema);

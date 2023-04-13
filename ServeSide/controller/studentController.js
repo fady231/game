@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     call(null, "./StudentProfilePic/");
   },
   filename: function (req, file, call) {
-    call(null, `${(file.originalname + new Date().toDateString())}.png`);
+    call(null, `${file.originalname}_${Date.now()}.png`);
   },
 });
 
@@ -21,202 +21,216 @@ const upload = multer({
   },
 });
 
-
-
-
-
-
 AddChild = function (req, res, next) {
-  User.find({ _id: req.params.id })
-    .then((resualt) => {
+  User.findById(req.params.id)
+    .then((parent) => {
+      if (!parent) {
+        return res.status(404).json({
+          message: "Parent not found",
+        });
+      }
 
-      Student.find({ studentUserName: req.body.username })
-        .then((resualt) => {
-          if (resualt.length < 1) {
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-              if (err) {
-                res.status(404).json({
-                  massage: err,
-                });
-              } else {
-                const student = new Student({
-                  studentUserName: req.body.username,
-                  studentName: req.body.name,
-                  studentPassword: hash,
-                  studentstage: req.body.stage,
-                  studentParent: req.params.id,
-                  studentPic: 'Profile/defualt.png'
-                });
-                student
-                  .save()
-                  .then((resualt) => {
-                    res.status(200).json({
-                      massage: "account successfully created",
-                      student: resualt
-                    });
-                  })
-                  .catch((err) => {
-                    res.status(404).json({
-                      massage: err,
-                    });
-                  });
+      Student.findOne({ studentUserName: req.body.username })
+        .then((existingStudent) => {
+          if (existingStudent) {
+            return res.status(409).json({
+              
+              student: {
+                status: "Username already exists",
               }
+            });
+          }
+
+          bcrypt.hash(req.body.password, 10)
+            .then((hash) => {
+              const student = new Student({
+                studentUserName: req.body.username,
+                studentName: req.body.name,
+                studentPassword: hash,
+                studentGrade: req.body.grade,
+                studentAge: req.body.age,
+                studentParent: parent._id,
+                studentPic: 'Profile/default.png'
+              });
+              
+              student.save()
+                .then((result) => {
+                  res.status(200).json({
+                    
+                    student: {
+                      status: "Child was added successfully",
+                      studentID: result._id,
+                      studentName: result.studentName,
+                      studentUserName: result.studentUserName,
+                      studentAge: result.studentAge,
+                      studentPic: result.studentPic,
+                      studentGrade: result.studentGrade
+                    }
+                  });
+                })
+                .catch((error) => {
+                  res.status(500).json({
+                    message: "Internal server error",
+                    error: error
+                  });
+                });
+            })
+            .catch((error) => {
+              res.status(500).json({
+                message: "Internal server error",
+                error: error
+              });
+            });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: "Internal server error",
+            error: error
+          });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "Internal server error",
+        error: error
+      });
+    });
+};
+
+StudentSignIn = function (req, res, next) {
+  Student.findOne({ studentUserName: req.body.username })
+    .select('studentName studentPassword studentUserName _id studentAge studentPic studentGrade studentParent')
+    .then((student) => {
+      if (!student) {
+        return res.status(404).json({
+          student:{
+            status: "Wrong username",
+          }
+        });
+      }
+
+      bcrypt.compare(req.body.password, student.studentPassword)
+        .then((result) => {
+          if (result) {
+            res.status(200).json({
+              
+              student:{
+              status: "Correct password",
+              studentID: student._id,
+              ParentID:student.studentParent,
+              studentName: student.studentName,
+              studentUserName: student.studentUserName,
+              studentAge: student.studentAge,
+              studentPic: student.studentPic,
+              studentGrade: student.studentGrade
+              } 
             });
           } else {
             res.status(404).json({
-              massage: "this user name is already registered",
-
+              
+              student:{
+                status: "Wrong password",
+              }
             });
           }
         })
-        .catch((err) => {
-          res.status(404).json({
-            massage: err,
+        .catch((error) => {
+          res.status(500).json({
+            message: "Internal server error",
+            error: error
           });
         });
-    }
-    )
-    .catch((err) => {
-      res.status(404).json({
-        massage: "error in parent id ",
-      });
-    });
-};
-
-StudenSignIn = function (req, res, next) {
-  Student.find({ studentUserName: req.body.username })
-    .then((student) => {
-      if (student.length >= 1) {
-        bcrypt
-          .compare(req.body.password, student[0].studentPassword)
-          .then((resualt) => {
-            if (resualt) {
-              res.status(200).json({
-                massage: "correct password",
-                student: student[0]
-              });
-            } else {
-              res.status(404).json({
-                massage: "wrong password",
-              });
-            }
-          })
-          .catch((err) => {
-            res.status(404).json({
-              massage: err,
-            });
-          });
-      } else {
-        res.status(404).json({
-          massage: "wrong user name",
-        });
-      }
     })
-    .catch((err) => {
-      res.status(404).json({
-        massage: err,
+    .catch((error) => {
+      res.status(500).json({
+        message: "Internal server error",
+        error: error
       });
     });
 };
 
-StudenUpdateInfo = function (req, res, next) {
-  Student.find({ _id: req.params.id })
+
+StudentUpdateInfo = function (req, res, next) {
+  Student.findOne({ _id: req.params.id })
     .then((student) => {
-      Student.find({ studentUserName: req.body.newusername })
-        .then((resualt) => {
-          if (resualt.length < 1) {
-            const student = {
+      Student.findOne({ studentUserName: req.body.newusername })
+        .then((result) => {
+          if (result && result._id != req.params.id) {
+            res.status(404).json({
+              message: "Username already exists",
+            });
+          } else {
+            const studentInfo = {
               studentUserName: req.body.newusername,
               studentName: req.body.newname,
               studentstage: req.body.newstage,
+              studentPic: req.file.path,
             };
-            Student.updateOne({ $set: student })
-              .then((resualt) => {
+
+            Student.updateOne({ _id: req.params.id }, studentInfo)
+              .then(() => {
                 res.status(202).json({
-                  massage: "updated sucssfully",
+                  message: "Updated successfully",
                 });
               })
               .catch((err) => {
                 res.status(404).json({
-                  massage: err,
+                  message: err,
                 });
               });
           }
-          else {
-            res.status(404).json({
-              massage: "user name already exists",
-            });
-          }
-        })
-    })
-    .catch((err) => {
-      res.status(404).json({
-        massage: "error in student id ",
-      });
-    });
-}
-
-
-StudenUpdatePic = function (req, res, next) {
-  Student.find({ _id: req.params.id })
-    .then((resualt) => {
-      const student = {
-   
-        studentPic: req.file.path
-      };
-      Student.updateOne({ $set: student })
-        .then((resualt) => {
-          res.status(202).json({
-            massage: "updated sucssfully",
-          });
         })
         .catch((err) => {
           res.status(404).json({
-            massage: err,
+            message: "Error finding username",
           });
         });
     })
     .catch((err) => {
       res.status(404).json({
-      massage: "error in student id ",
+        message: "Error finding student ID",
       });
     });
 }
 
 
+
 UpdatePassword = function (req, res, next) {
-  Student.find({ _id: req.params.id })
+  Student.findById(req.params.id)
     .then((student) => {
-      bcrypt
-        .hash(req.body.newpassword, 10)
+      if (!student) {
+        return res.status(404).json({
+          massage: "error in student id",
+        });
+      }
+      bcrypt.hash(req.body.newpassword, 10)
         .then((hash) => {
-          const student = {
-            studentPassword: hash,
-          };
-          Student.updateOne({ $set: student })
-            .then((resualt) => {
+          student.studentPassword = hash;
+          student.save()
+            .then(() => {
               res.status(202).json({
-                massage: "password updated sucssfully",
+                message: "password updated successfully",
               });
             })
             .catch((err) => {
               res.status(404).json({
-                massage: err,
+                message: err,
               });
             });
         })
         .catch((err) => {
           res.status(404).json({
-            massage: err,
+            message: err,
           });
         });
     })
     .catch((err) => {
       res.status(404).json({
-        massage: "error in student id ",
+        message: "error in student id",
       });
     });
 };
+
 
 deleteAccount = function (req, res, next) {
   Student.findOneAndDelete({ _id: req.params.id })
@@ -233,10 +247,9 @@ deleteAccount = function (req, res, next) {
 };
 
 module.exports = {
-  StudenSignIn: StudenSignIn,
+  StudentSignIn: StudentSignIn,
   AddChild: AddChild,
-  StudenUpdateInfo: StudenUpdateInfo,
-  StudenUpdatePic: StudenUpdatePic,
+  StudentUpdateInfo: StudentUpdateInfo,
   UpdatePassword: UpdatePassword,
   deleteAccount: deleteAccount,
   upload: upload
