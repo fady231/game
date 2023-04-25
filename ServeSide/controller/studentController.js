@@ -46,7 +46,7 @@ AddChild = function (req, res, next) {
               const student = new Student({
                 studentUserName: req.body.username,
                 studentName: req.body.name,
-                studentPassword: hash,
+                studentPassword: req.body.password,
                 studentGrade: req.body.grade,
                 studentAge: req.body.age,
                 studentParent: parent._id,
@@ -59,11 +59,11 @@ AddChild = function (req, res, next) {
                     
                     student: {
                       status: "Child was added successfully",
-                      studentID: result._id,
+                      _id: result._id,
                       studentName: result.studentName,
                       studentUserName: result.studentUserName,
-                      studentAge: result.studentAge,
-                      studentPic: result.studentPic,
+                      studentPassword: result.studentPassword,
+                     
                       studentGrade: result.studentGrade
                     }
                   });

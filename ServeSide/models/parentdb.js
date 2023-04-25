@@ -28,10 +28,10 @@ const parentSchema = new mongoose.Schema({
   },
   parentPhoneNumber: {
     type: String,
-    required: true,
+    required: false,
     minlength: 11,
     maxlength: 15,
-    trim: true
+    trim: false
   },
   profilePictureUrl: {
     type: String,

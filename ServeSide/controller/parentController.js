@@ -49,7 +49,7 @@ SignUp = function (req, res, next) {
                   
                   parent: {
                     status: "account successfully created",
-                    parentID: result._id,
+                    _id: result._id,
                     parentName: result.parentName,
                     parentMail: result.parentMail,
                     parentPhoneNumber: result.parentPhoneNumber,
@@ -112,14 +112,14 @@ SignIn = function (req, res, next) {
               const responseData = {
                 parent: {
                   status: "correct password",
-                  parentID: user._id,
+                  _id: user._id,
                   parentName: user.parentName,
                   parentMail: user.parentMail,
                   parentPhoneNumber: user.parentPhoneNumber,
                   parentAge: user.parentAge,
                   parentProfilePic:user.profilePictureUrl
                 },
-                children: children.map(child => ({ studentID: child._doc._id, ...child._doc, _id: undefined }))
+                children: children.map(child => ({ _id: child._doc._id, ...child._doc, _id: undefined }))
               };
 
               res.status(200).json(responseData);
