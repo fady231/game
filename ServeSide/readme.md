@@ -108,10 +108,10 @@ id:it refer to parent id it should be embedded to api url
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
 var raw = JSON.stringify({
-  "studentUserName": "fady",
-  "studentPassword": "123",
-  "studentName": "fady",
-  "studentGrade": "4",
+  "username": "fadiy",
+  "password": "123",
+  "name": "fady",
+  "grade": "4"
 });
 
 type : post
