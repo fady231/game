@@ -3,8 +3,6 @@ const User = require("../models/parentdb");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 
-
-
 const storage = multer.diskStorage({
   destination: function (req, file, call) {
     call(null, "./StudentProfilePic/");
@@ -34,14 +32,14 @@ AddChild = function (req, res, next) {
         .then((existingStudent) => {
           if (existingStudent) {
             return res.status(409).json({
-              
               student: {
                 status: "Username already exists",
-              }
+              },
             });
           }
 
-          bcrypt.hash(req.body.password, 10)
+          bcrypt
+            .hash(req.body.password, 10)
             .then((hash) => {
               const student = new Student({
                 studentUserName: req.body.username,
@@ -50,105 +48,104 @@ AddChild = function (req, res, next) {
                 studentGrade: req.body.grade,
                 studentAge: req.body.age,
                 studentParent: parent._id,
-                studentPic: 'Profile/default.png'
+                studentPic: "Profile/default.png",
               });
-              
-              student.save()
+
+              student
+                .save()
                 .then((result) => {
                   res.status(200).json({
-                    
                     student: {
                       status: "Child was added successfully",
                       _id: result._id,
                       studentName: result.studentName,
                       studentUserName: result.studentUserName,
                       studentPassword: result.studentPassword,
-                     
-                      studentGrade: result.studentGrade
-                    }
+                      studentGrade: result.studentGrade,
+                    },
                   });
                 })
                 .catch((error) => {
                   res.status(500).json({
                     message: "Internal server error",
-                    error: error
+                    error: error,
                   });
                 });
             })
             .catch((error) => {
               res.status(500).json({
                 message: "Internal server error",
-                error: error
+                error: error,
               });
             });
         })
         .catch((error) => {
           res.status(500).json({
             message: "Internal server error",
-            error: error
+            error: error,
           });
         });
     })
     .catch((error) => {
       res.status(500).json({
         message: "Internal server error",
-        error: error
+        error: error,
       });
     });
 };
 
 StudentSignIn = function (req, res, next) {
   Student.findOne({ studentUserName: req.body.username })
-    .select('studentName studentPassword studentUserName _id studentAge studentPic studentGrade studentParent')
+    .select(
+      "studentName studentPassword studentUserName _id studentAge studentPic studentGrade studentParent"
+    )
     .then((student) => {
       if (!student) {
         return res.status(404).json({
-          student:{
+          student: {
             status: "Wrong username",
-          }
+          },
         });
       }
 
-      bcrypt.compare(req.body.password, student.studentPassword)
+      bcrypt
+        .compare(req.body.password, student.studentPassword)
         .then((result) => {
           if (result) {
             res.status(200).json({
-              
-              student:{
-              status: "Correct password",
-              studentID: student._id,
-              ParentID:student.studentParent,
-              studentName: student.studentName,
-              studentUserName: student.studentUserName,
-              studentAge: student.studentAge,
-              studentPic: student.studentPic,
-              studentGrade: student.studentGrade
-              } 
+              student: {
+                status: "Correct password",
+                studentID: student._id,
+                ParentID: student.studentParent,
+                studentName: student.studentName,
+                studentUserName: student.studentUserName,
+                studentAge: student.studentAge,
+                studentPic: student.studentPic,
+                studentGrade: student.studentGrade,
+              },
             });
           } else {
             res.status(404).json({
-              
-              student:{
+              student: {
                 status: "Wrong password",
-              }
+              },
             });
           }
         })
         .catch((error) => {
           res.status(500).json({
             message: "Internal server error",
-            error: error
+            error: error,
           });
         });
     })
     .catch((error) => {
       res.status(500).json({
         message: "Internal server error",
-        error: error
+        error: error,
       });
     });
 };
-
 
 StudentUpdateInfo = function (req, res, next) {
   Student.findOne({ _id: req.params.id })
@@ -191,9 +188,7 @@ StudentUpdateInfo = function (req, res, next) {
         message: "Error finding student ID",
       });
     });
-}
-
-
+};
 
 UpdatePassword = function (req, res, next) {
   Student.findById(req.params.id)
@@ -203,10 +198,12 @@ UpdatePassword = function (req, res, next) {
           massage: "error in student id",
         });
       }
-      bcrypt.hash(req.body.newpassword, 10)
+      bcrypt
+        .hash(req.body.newpassword, 10)
         .then((hash) => {
           student.studentPassword = hash;
-          student.save()
+          student
+            .save()
             .then(() => {
               res.status(202).json({
                 message: "password updated successfully",
@@ -231,7 +228,6 @@ UpdatePassword = function (req, res, next) {
     });
 };
 
-
 deleteAccount = function (req, res, next) {
   Student.findOneAndDelete({ _id: req.params.id })
     .then((resualt) => {
@@ -252,5 +248,5 @@ module.exports = {
   StudentUpdateInfo: StudentUpdateInfo,
   UpdatePassword: UpdatePassword,
   deleteAccount: deleteAccount,
-  upload: upload
+  upload: upload,
 };

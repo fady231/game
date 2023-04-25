@@ -1,11 +1,11 @@
-
 ## to create account for parent on website
+
 ```
 [machine host]/parent/create
- 
+
  request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
- 
+
 var raw = JSON.stringify({
   "name": "fady",
   "mail": "fadyraouf231@gmail.com",
@@ -17,13 +17,13 @@ var raw = JSON.stringify({
 type : post
 
 response body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 
+ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 if(ok)
 here you will resevie status: 200
 {
     "parent": {
         "status": "account successfully created",
-        "parentID": "6438060776b3f3a3fd00461d",
+        "_id": "6438060776b3f3a3fd00461d",
         "parentName": "fady",
         "parentMail": "fadyraouf231@gmail.com",
         "parentPhoneNumber": "01030298360",
@@ -40,14 +40,14 @@ here you will resevie status: 409
 }
 ```
 
+## to log in through website
 
-## to log in through website 
 ```
 [machine host]/parent/login
 
 request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
- 
+
 var raw = JSON.stringify({
   "mail": "fadyraouf231@gmail.com",
   "password": "123"
@@ -56,13 +56,13 @@ var raw = JSON.stringify({
 type : post
 
 response body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 
+ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 if(ok)
 here you will resevie status: 200
 {
     "parent": {
         "status": "correct password",
-        "parentID": "6438060776b3f3a3fd00461d",
+        "_id": "6438060776b3f3a3fd00461d",
         "parentName": "fady",
         "parentMail": "fadyraouf231@gmail.com",
         "parentPhoneNumber": "01030298360",
@@ -98,37 +98,36 @@ here you will resevie status: 200
 }
 ```
 
-## to add student  it should be from website after chosing add child 
+## to add student it should be from website after chosing add child
+
 ```
-[machine host]/student/AddChild/id 
-id:it refer to parent id it should be embedded to api url 
+[machine host]/student/AddChild/id
+id:it refer to parent id it should be embedded to api url
 
  request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
- 
+
 var raw = JSON.stringify({
-  "name": "fady",
-  "mail": "fadyraouf231@gmail.com",
-  "password": "123",
-  "age": "22",
-  "phone": "01030298360"
+  "studentUserName": "fady",
+  "studentPassword": "123",
+  "studentName": "fady",
+  "studentGrade": "4",
 });
 
 type : post
 
 response body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 
+ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 if(ok)
 here you will resevie status: 200
 {
     "student": {
         "status": "Child was added successfully",
-        "studentID": "643810158c7ba4f1fb42411d",
+        "_id": "643810158c7ba4f1fb42411d",
         "studentName": "fady",
         "studentUserName": "fady",
-        "studentAge": 9,
-        "studentPic": "Profile/default.png",
-        "studentGrade": 1
+        "studentPassword": "fady",
+        "studentGrade": 9,
     }
 }
 
@@ -151,10 +150,11 @@ here you will resevie status: 500
 
 ```
 
-## for parent to add data from website that will appear to student in mobile 
+## for parent to add data from website that will appear to student in mobile
+
 ```
 [machine host]/FSE/InsertData/id
-id:it refer to parent id it should be embedded to api url 
+id:it refer to parent id it should be embedded to api url
 
  request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -176,10 +176,11 @@ here you will resevie status: 200
 }
 ```
 
-## for parent to show data that previosuly insert  
+## for parent to show data that previosuly insert
+
 ```
 [machine host]/FSE/TakeData/id
-id:it refer to parent id it should be embedded to api url 
+id:it refer to parent id it should be embedded to api url
 
  request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -254,12 +255,11 @@ if(error in grade or subject)
 }
 ```
 
+## for parent to assign task from that previosuly inserted data
 
-
-## for parent to assign  task from  that previosuly inserted data   
 ```
 [machine host]/Task/AssignTask/id
-id:it refer to student id that this task would be assigned  it should be embedded to api url 
+id:it refer to student id that this task would be assigned  it should be embedded to api url
 
  request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -291,10 +291,12 @@ here you will resevie status: 400
     "status": "TaskNumber already exists for the same StudentID"
 }
 ```
-## for mobile to order assigned tasks   
+
+## for mobile to order assigned tasks
+
 ```
 [machine host]/Task/TakeTask/id
-id:it refer to student id that this task would be assigned  it should be embedded to api url 
+id:it refer to student id that this task would be assigned  it should be embedded to api url
 
  request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -464,13 +466,14 @@ here you will resevie status: 404
 }
 ```
 
-## to log in from mobile as student by the account that parent create it for her child 
+## to log in from mobile as student by the account that parent create it for her child
+
 ```
 [machine host]/student/StudentLogIn
 
  request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
- 
+
 var raw = JSON.stringify({
   "username": "fady",
   "password": "fady"
@@ -479,7 +482,7 @@ var raw = JSON.stringify({
 type : post
 
 response body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 
+ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 if(ok)
 here you will resevie status: 200
 {
@@ -512,10 +515,11 @@ here you will resevie status: 200
 }
 ```
 
-## to order question to appear to mobile 
+## to order question to appear to mobile
+
 ```
 [machine host]/FSE/FSEtakeQuestion/id
-id:it refer to parent id it should be embedded to api url 
+id:it refer to parent id it should be embedded to api url
 
  request body should be like
  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -525,86 +529,98 @@ id:it refer to parent id it should be embedded to api url
     "stadge":"1"
 }
 
-type : post 
+type : post
 ```
+
 <details>
   <summary>Click to expand/collapse</summary>
 ## to retry question 
 ```
 [machine host]/FSE/FSEretryQuestion/id
-id:it refer to parent id it should be embedded to api url 
+id:it refer to parent id it should be embedded to api url
 
- request body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+request body should be like
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
-json body 
+json body
 {
-    "id1":"6394e708b273ac393b1576af",
-    "id2":"6394f2e38117cacee984adac",
-    "id3":"6394f3198117cacee984adae",
-    "id4":"6394e6c8cc354df7eb70c080",
-    "id5":"639501fe967794a33a9833ba",
-    "id6":"63950fc0e93fe394dc49bf1b"
+"id1":"6394e708b273ac393b1576af",
+"id2":"6394f2e38117cacee984adac",
+"id3":"6394f3198117cacee984adae",
+"id4":"6394e6c8cc354df7eb70c080",
+"id5":"639501fe967794a33a9833ba",
+"id6":"63950fc0e93fe394dc49bf1b"
 
 }
 type : get
+
 ```
-## to update info for student 
+## to update info for student
 ```
+
 [machine host]/student/StudenUpdateInfo/id
-id:it refer to student id it should be embedded to api url 
+id:it refer to student id it should be embedded to api url
 
- request body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+request body should be like
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
-forma data  like this :
+forma data like this :
 formdata.append("newusername", "abdallh");
 formdata.append("newname", "abdallh");
 formdata.append("newstage", "1");
 type:patch
-```
-## to update pic for student 
-```
-[machine host]/student/StudenUpdatePic/id
-id:it refer to student id it should be embedded to api url 
 
- request body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+```
+## to update pic for student
+```
+
+[machine host]/student/StudenUpdatePic/id
+id:it refer to student id it should be embedded to api url
+
+request body should be like
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 formdata.append("image", fileInput.files[0], "/C:/Users/f0/Desktop/grad_pro/game/jiraff.jpg");
 type:patch
+
 ```
-## to update password for student 
+## to update password for student
 ```
+
 [machine host]/student/StudentUpdatePassword/id
 {
 "newpassword":"fady"
 }
 type:patch
+
 ```
-## to update info for parent 
+## to update info for parent
 ```
+
 [machine host]/parent/ParentUpdateInfo/id
-id:it refer to parent id it should be embedded to api url 
+id:it refer to parent id it should be embedded to api url
 
- request body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+request body should be like
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
-forma data  like this :
+forma data like this :
 formdata.append("newmail", "fady@gmail.com");
 formdata.append("newname", "fady");
 formdata.append("newphonenumber", "1020");
 formdata.append("newage", "5");
 type:patch
+
 ```
-## to update pic for parent 
+## to update pic for parent
 ```
+
 [machine host]/parent/ParentUpdatePic/id
 
- request body should be like
- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-id:it refer to parent id it should be embedded to api url 
+request body should be like
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+id:it refer to parent id it should be embedded to api url
 formdata.append("image", fileInput.files[0], "/C:/Users/f0/Desktop/grad_pro/game/messi.png");
 type:patch
+
 ```
 </details>
 ```
