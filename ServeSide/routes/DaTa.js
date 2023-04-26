@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 const control = require('../controller/DataConrtoller');
-const { updateMany } = require('../models/DaTadb');
+const { updateMany } = require('../models/Datadb');
 
 
 
