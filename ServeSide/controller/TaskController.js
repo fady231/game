@@ -1,4 +1,4 @@
-const Data = require("../models/DaTadb");
+const Data = require("../models/Datadb");
 const Task = require("../models/Taskdb");
 
 
