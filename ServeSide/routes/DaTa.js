@@ -3,7 +3,7 @@ const { execMap } = require('nodemon/lib/config/defaults');
 const router = express.Router();
 
 
-const control = require('../controller/DaTaConrtoller');
+const control = require('../controller/DataConrtoller');
 const { updateMany } = require('../models/DaTadb');
 
 
