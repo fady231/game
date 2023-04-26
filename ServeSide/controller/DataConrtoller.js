@@ -1,4 +1,5 @@
-const Data = require("../models/DaTadb");
+const Data = require("../models/Datadb");
+
 const FBQuestion = require("../models/Feedback")
 const multer = require("multer");
 
