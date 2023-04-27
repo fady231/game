@@ -66,21 +66,22 @@ TakeData = async function (req, res, next) {
       });
     }
 
-    const data = await Data.find({
-      gradeNo: grade,
-      parentID: req.params.id,
-      subjectName: subject,
-    }).select('-__v'); // exclude createdAt and updatedAt fields
+ const data = await Data.find({
+  gradeNo: grade,
+  parentID: req.params.id,
+  subjectName: subject,
+}).select('-__v'); // exclude createdAt and updatedAt fields
 
-    if (data.length < 1) {
-      return res.status(404).json({
-        status: "No matching documents found",
-      });
-    }
+if (!data || data.length < 1 || !data[0].gradeNo || !data[0].parentID || !data[0].subjectName) {
+  return res.status(404).json({
+    status: "No matching documents found",
+  });
+}
 
-    res.status(200).json({
-      data: data.map(da => ({ dataId: da._doc._id, ...da._doc, _id: undefined }))
-    });
+res.status(200).json({
+  data: data.map(da => ({ dataId: da._doc._id, ...da._doc, _id: undefined }))
+});
+
   } catch (err) {
     console.error(err);
     res.status(500).json({
