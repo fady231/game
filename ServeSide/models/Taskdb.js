@@ -9,7 +9,7 @@ const taskSchema = new mongoose.Schema({
   taskNumber: {
     type: Number,
     required: true,
-    unique: true
+   
   },
   gameName: {
     type: [String],
@@ -52,7 +52,7 @@ const taskSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 // Create a unique index on TaskNumber for each StudentID
-taskSchema.index({ StudentID: 1, TaskNumber: 1 }, { unique: true });
+taskSchema.index({ StudentID: 1 }, { unique: true });
 
 
 
