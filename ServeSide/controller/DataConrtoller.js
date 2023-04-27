@@ -66,17 +66,26 @@ TakeData = async function (req, res, next) {
       });
     }
 
- const data = await Data.find({
-  gradeNo: grade,
-  parentID: req.params.id,
-  subjectName: subject,
-}).select('-__v'); // exclude createdAt and updatedAt fields
+const doc = await Data.findById(req.params.id).select('-__v');
 
-if (!data || data.length < 1 || !data[0].gradeNo || !data[0].parentID || !data[0].subjectName) {
+if (!doc) {
+  return res.status(404).json({
+    status: "Document not found",
+  });
+}
+
+const data = await Data.find({
+  gradeNo: doc.gradeNo,
+  parentID: doc.parentID,
+  subjectName: doc.subjectName,
+}).select('-__v');
+
+if (!data || data.length < 1) {
   return res.status(404).json({
     status: "No matching documents found",
   });
 }
+
 
 res.status(200).json({
   data: data.map(da => ({ dataId: da._doc._id, ...da._doc, _id: undefined }))
