@@ -53,40 +53,33 @@ InsertData = function (req, res, next) {
 };
 
 
-
 TakeData = async function (req, res, next) {
   try {
-    const { grade, subject } = req.body;
+    const user = await Data.findOne({ parentId: req.params.id });
 
-    // Validate inputs
-    if (!grade || typeof grade !== "number" || !subject || typeof subject !== "string") {
-      return res.status(400).json({
-        message: "Invalid input format",
+    if (!user) {
+      return res.status(404).json({
+        parent: {
+          status: "wrong id",
+        }
       });
     }
 
-    const data = await Data.find({
-      gradeNo: grade,
-      parentID: req.params.id,
-      subjectName: subject,
-    }).then((result) => {
+    const data = await Data.find({ gradeNo: req.body.grade, subjectName: req.body.subject });
+    if(data<1)
+    {
 
-      if (!result || result.length < 1 || !result[0].gradeNo || !result[0].parentID || !result[0].subjectName) {
-        return res.status(404).json({
-          status: "No matching documents found",
-        });
-      }
-
-      res.status(200).json({
-        data: result.map(da => ({ dataId: da._doc._id, ...da._doc, _id: undefined }))
-      });
-
-    });
-
-    res.status(200).json({
-      data: data.map(da => ({ dataId: da._doc._id, ...da._doc, _id: undefined }))
-    });
-
+    res.status(404).json(
+     
+     { data:"no iserting data for this grade or this subject"
+    }
+    );
+    }
+    else 
+    {
+      res.status(200).json(data);
+    }
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -95,10 +88,6 @@ TakeData = async function (req, res, next) {
     });
   }
 };
-
-
-
-
 
 
 
