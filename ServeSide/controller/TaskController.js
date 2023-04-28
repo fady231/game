@@ -86,6 +86,7 @@ TakeTask = function (req, res, next) {
               const taskDataObject = {
                   taskNumber: task.taskNumber,
                   gameName: task.gameName,
+                  
                   data: data.map(da => ({ taskId: da._doc._id, ...da._doc, _id: undefined })),
               };
 
@@ -103,6 +104,7 @@ TakeTask = function (req, res, next) {
               const taskDataObject = {
                   taskNumber: task.taskNumber,
                   gameName: task.gameName,
+                  done:task.done,
                   data: [],
                   error: err.message,
               };
