@@ -12,7 +12,7 @@ const Task = require("./routes/Task");
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/FSEimage',express.static(path.join('FSEimage')));
+app.use('/image',express.static(path.join('Image')));
 app.use('/StudentProfilePic',express.static(path.join('StudentProfilePic')));
 app.use('/Profile',express.static(path.join('Profile')));
 app.use('/ParentProfilePic',express.static(path.join('ParentProfilePic')));

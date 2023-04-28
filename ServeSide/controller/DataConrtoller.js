@@ -3,12 +3,19 @@ const Data = require("../models/Datadb");
 const FBQuestion = require("../models/Feedback")
 const multer = require("multer");
 
+const uuid = require('uuid');
+
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, call) {
-    call(null, "./FSEimage/");
+    call(null, "./Image");
   },
   filename: function (req, file, call) {
-    call(null, req.body.worden.replace(/\.[^/.]+$/, "") + "_" + Date.now() + ".png");
+ 
+     call(null, `${uuid.v4().replace(/-/g, '')}.png`);
+    
+  
   },
 });
 
@@ -60,7 +67,7 @@ TakeData = async function (req, res, next) {
     if (!user) {
       return res.status(404).json({
         parent: {
-          status: "wrong id",
+          status: "no iserting data for this id",
         }
       });
     }

@@ -8,7 +8,9 @@ const storage = multer.diskStorage({
     call(null, "./StudentProfilePic/");
   },
   filename: function (req, file, call) {
-    call(null, `${file.originalname}_${Date.now()}.png`);
+    if (req.body.worden) {
+      call(null, req.body.worden.replace(/\.[^/.]+$/, "") + "_" + Date.now() + ".png");
+    } 
   },
 });
 
