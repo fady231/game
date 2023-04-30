@@ -96,7 +96,7 @@ AddChild = function (req, res, next) {
     });
 };
 
-const studentSignIn = async (req, res, next) => {
+const StudentSignIn = async (req, res, next) => {
   try {
     const student = await Student.findOne({ studentUserName: req.body.username }).select("_id studentName studentPassword studentAge studentPic studentGrade studentParent");
     
