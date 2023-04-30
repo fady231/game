@@ -96,57 +96,47 @@ AddChild = function (req, res, next) {
     });
 };
 
-StudentSignIn = function (req, res, next) {
-  Student.findOne({ studentUserName: req.body.username })
-    .select(
-      "studentName studentPassword studentUserName _id studentAge studentPic studentGrade studentParent"
-    )
-    .then((student) => {
-      if (!student) {
-        return res.status(404).json({
-          student: {
-            status: "Wrong username",
-          },
-        });
-      }
-
-      bcrypt
-        .compare(req.body.password, student.studentPassword)
-        .then((result) => {
-          if (result) {
-            res.status(200).json({
-              student: {
-                status: "Correct password",
-                studentID: student._id,
-                ParentID: student.studentParent,
-                studentName: student.studentName,
-                studentUserName: student.studentUserName,
-                studentAge: student.studentAge,
-                studentPic: student.studentPic,
-                studentGrade: student.studentGrade,
-              },
-            });
-          } else {
-            res.status(404).json({
-              student: {
-                status: "Wrong password",
-              },
-            });
-          }
-        })
-        .catch((error) => {
-          res.status(500).json({
-            message: "Internal server error",
-            error: error,
-          });
-        });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        message: "Internal server error",
-        error: error,
+const studentSignIn = async (req, res, next) => {
+  try {
+    const student = await Student.findOne({ studentUserName: req.body.username }).select("_id studentName studentPassword studentAge studentPic studentGrade studentParent");
+    
+    if (!student) {
+      return res.status(404).json({
+        student: {
+          status: "Wrong username",
+        },
       });
+    }
+
+    // Compare the plain text password with the stored password
+    if (req.body.password === student.studentPassword) {
+      return res.status(200).json({
+        student: {
+          status: "Correct password",
+          studentID: student._id,
+          ParentID: student.studentParent,
+          studentName: student.studentName,
+          studentUserName: student.studentUserName,
+          studentAge: student.studentAge,
+          studentPic: student.studentPic,
+          studentGrade: student.studentGrade,
+        },
+      });
+    } else {
+      return res.status(404).json({
+        student: {
+          status: "Wrong password",
+        },
+      });
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
     });
+  }
 };
 
 StudentUpdateInfo = function (req, res, next) {
