@@ -1,27 +1,41 @@
 const { string } = require('joi');
 const mongoose = require('mongoose');
 
-const FeedbackEnSchema = mongoose.Schema({
-    child_id: {
-        type: String,
-        required: true,
+const FeedbackSchema = mongoose.Schema({
+    studentID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student',
+        required: true
     },
-    game_id: {
-        type: String,
+    taskID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Task',
         required: true,
-    },
-    questions: {
-        type: [],
-        required: true,
-        question_id:{
-            type: String,
-            required: true,
-        },
-        attempts:{
-            type: Number,
-            required: true
-        },
-    },
-});
+      },
+      data1Attempts: {
+        type: Number,
+        default: 0,
+      },
+      data2Attempts: {
+        type: Number,
+        default: 0,
+      },
+      data3Attempts: {
+        type: Number,
+        default: 0,
+      },
+      data4Attempts: {
+        type: Number,
+        default: 0,
+      },
+      data5Attempts: {
+        type: Number,
+        default: 0,
+      },
+      data6Attempts: {
+        type: Number,
+        default: 0,
+      },
+    }, { timestamps: true });
 
-module.exports = mongoose.model('Feedback', FeedbackEnSchema);
+module.exports = mongoose.model('Feedback', FeedbackSchema);

@@ -9,6 +9,7 @@ const parents = require("./routes/parents");
 const FSE = require("./routes/DaTa");
 const data = require("./routes/dataRouter")
 const Task = require("./routes/Task");
+const feedback = require('./routes/feedbackRouter');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -21,6 +22,8 @@ app.use("/parent", parents);
 app.use("/FSE", FSE);
 app.use("/Task", Task);
 app.use("/data", data);
+app.use('/feedback', feedback);
+
 
 
 
