@@ -5,44 +5,51 @@ const Task = require("../models/Taskdb");
 AssignTask = async function (req, res, next) {
   try {
     const { taskno, gamename, id1, id2, id3, id4, id5, id6 } = req.body;
-
+    
     // Check if all required fields are present in the request body
     if (!taskno || !gamename || !id1 || !id2 || !id3 || !id4 || !id5 || !id6) {
       return res.status(400).json({
         status: "Missing required fields"
       });
     }
-
+    
     // Check if a task with the same taskNumber already exists for the same studentID
-    const existingTask = await Task.findOne({
-      studentID: req.params.id,
-      taskNumber: taskno
+    // Find all tasks for the given student ID
+    const existingTasks = await Task.find({
+      studentID: req.params.id
     });
-
+   
+    // Filter tasks to find only the one with the matching task number
+    const existingTask = existingTasks.filter(task => task.taskNumber === taskno)[0];
+    
     if (existingTask) {
-      return res.status(400).json({
+      res.status(400).json({
         status: "taskNumber already exists for the same studentID"
       });
-    }
+    } else {
+      // Either task number or student ID not found, there is no data
+   
+      const task = new Task({
+        studentID: req.params.id,
+        taskNumber: taskno,
+        gameName: gamename,
+        done: false,
+        data1ID: id1,
+        data2ID: id2,
+        data3ID: id3,
+        data4ID: id4,
+        data5ID: id5,
+        data6ID: id6,
+      });
 
-    const task = new Task({
-      studentID: req.params.id,
-      taskNumber: taskno,
-      gameName: gamename,
-      done:false,
-      data1ID: id1,
-      data2ID: id2,
-      data3ID: id3,
-      data4ID: id4,
-      data5ID: id5,
-      data6ID: id6,
-    });
+      
 
     await task.save();
-
+    
     res.status(200).json({
       status: "Task assigned successfully"
     });
+  }
   } catch (err) {
     res.status(500).json({
       status: "Error assigning task",

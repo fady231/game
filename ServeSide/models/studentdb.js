@@ -33,9 +33,9 @@ const StudentSchema = mongoose.Schema({
     required: false,
   },
   studentParent: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
 });
-StudentSchema.index({ studentUserName: 1, studentParent: 1 }, { unique: true });
+
 module.exports = mongoose.model("students", StudentSchema);

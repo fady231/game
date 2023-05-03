@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 
 const FeedbackSchema = mongoose.Schema({
     studentID: {
-        type: mongoose.Schema.Types.ObjectId,
+      type: String,
         ref: 'Student',
         required: true
     },
     taskID: {
-        type: mongoose.Schema.Types.ObjectId,
+      type: String,
         ref: 'Task',
         required: true,
       },

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const taskSchema = new mongoose.Schema({
   studentID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Student",
     required: true
   },
@@ -20,39 +20,36 @@ const taskSchema = new mongoose.Schema({
     required: true
   },
   data1ID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Data1",
     required: true
   },
   data2ID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Data2",
     required: true
   },
   data3ID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Data3",
     required: true
   },
   data4ID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Data4",
     required: true
   },
   data5ID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Data5",
     required: true
   },
   data6ID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Data6",
     required: true
   },
 }, {timestamps: true});
-
-// Create a unique index on TaskNumber for each StudentID
-taskSchema.index({ StudentID: 1 }, { unique: true });
 
 
 

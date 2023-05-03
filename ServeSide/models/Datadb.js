@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Data = new mongoose.Schema({
   parentId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'Parent' // Reference to the parent document
   },
