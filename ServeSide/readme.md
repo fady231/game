@@ -167,6 +167,7 @@ formdata.append("worden", "dog"); not mandtory
 formdata.append("image", fileInput.files[0], "/C:/Users/f0/Pictures/Screenshots/Screenshot (45).png"); not mandtory
 formdata.append("sentence", "yesterday i saw dog "); not mandtory
 formdata.append("number", "1"); not mandtory
+formdata.append("choices", ["1",...]); not mandtory
 type : post
 
 if(ok)
@@ -205,6 +206,7 @@ here you will resevie status: 200
             "definitionInEn": "dog",
             "sentence": "yesterday i saw dog",
             "numbers": "1",
+            "choices":["1",...],
             "createdAt": "2023-04-13T14:44:48.421Z",
             "updatedAt": "2023-04-13T14:44:48.421Z"
         },
@@ -218,6 +220,7 @@ here you will resevie status: 200
             "definitionInEn": "dog",
             "sentence": "yesterday i saw dog",
             "numbers": "1",
+            "choices":["1",...],
             "createdAt": "2023-04-13T14:59:49.688Z",
             "updatedAt": "2023-04-13T14:59:49.688Z"
         },
@@ -231,6 +234,7 @@ here you will resevie status: 200
             "definitionInEn": "dog",
             "sentence": "yesterday i saw dog",
             "numbers": "1",
+            "choices":["1",...],
             "createdAt": "2023-04-13T14:59:53.980Z",
             "updatedAt": "2023-04-13T14:59:53.980Z"
         },
@@ -244,6 +248,7 @@ here you will resevie status: 200
             "definitionInEn": "dog",
             "sentence": "yesterday i saw dog",
             "numbers": "1",
+            "choices":["1",...],
             "createdAt": "2023-04-13T14:59:59.827Z",
             "updatedAt": "2023-04-13T14:59:59.827Z"
         }
@@ -313,80 +318,9 @@ here status will be 200
             "game1",
             "game2"
         ],
-        "data": [
-            {
-                "taskId": "64381c183c83a88a67f37654",
-                "parentId": "6436d8f044bd5589e237d3b5",
-                "gradeNo": 1,
-                "subjectName": "en",
-                "imageUrl": "FSEimage\\dog_1681398808660.png",
-                "definitionInAc": "كلب7",
-                "definitionInEn": "dog",
-                "sentence": "yesterday i saw dog",
-                "numbers": "1"
-            },
-            {
-                "taskId": "64381c1b3c83a88a67f37656",
-                "parentId": "6436d8f044bd5589e237d3b5",
-                "gradeNo": 1,
-                "subjectName": "en",
-                "imageUrl": "FSEimage\\dog_1681398811355.png",
-                "definitionInAc": "كلب8",
-                "definitionInEn": "dog",
-                "sentence": "yesterday i saw dog",
-                "numbers": "1"
-            },
-            {
-                "taskId": "64381c1e3c83a88a67f37658",
-                "parentId": "6436d8f044bd5589e237d3b5",
-                "gradeNo": 1,
-                "subjectName": "en",
-                "imageUrl": "FSEimage\\dog_1681398814921.png",
-                "definitionInAc": "كلب9",
-                "definitionInEn": "dog",
-                "sentence": "yesterday i saw dog",
-                "numbers": "1"
-            },
-            {
-                "taskId": "64381c213c83a88a67f3765a",
-                "parentId": "6436d8f044bd5589e237d3b5",
-                "gradeNo": 1,
-                "subjectName": "en",
-                "imageUrl": "FSEimage\\dog_1681398817624.png",
-                "definitionInAc": "كلب10",
-                "definitionInEn": "dog",
-                "sentence": "yesterday i saw dog",
-                "numbers": "1"
-            },
-            {
-                "taskId": "64381c243c83a88a67f3765c",
-                "parentId": "6436d8f044bd5589e237d3b5",
-                "gradeNo": 1,
-                "subjectName": "en",
-                "imageUrl": "FSEimage\\dog_1681398820340.png",
-                "definitionInAc": "كلب11",
-                "definitionInEn": "dog",
-                "sentence": "yesterday i saw dog",
-                "numbers": "1"
-            },
-            {
-                "taskId": "64381c273c83a88a67f3765e",
-                "parentId": "6436d8f044bd5589e237d3b5",
-                "gradeNo": 1,
-                "subjectName": "en",
-                "imageUrl": "FSEimage\\dog_1681398823032.png",
-                "definitionInAc": "كلب12",
-                "definitionInEn": "dog",
-                "sentence": "yesterday i saw dog",
-                "numbers": "1"
-            }
-        ]
-    },
-    {
-        "taskNumber": 2,
-        "gameName": [
-            "game1",
-            "game2"
+        "done": [
+            false,
+            false
         ],
         "data": [
             {
@@ -398,7 +332,8 @@ here status will be 200
                 "definitionInAc": "كلب7",
                 "definitionInEn": "dog",
                 "sentence": "yesterday i saw dog",
-                "numbers": "1"
+                "numbers": "1",
+                "choices":["1",...],
             },
             {
                 "taskId": "64381c1b3c83a88a67f37656",
@@ -409,7 +344,8 @@ here status will be 200
                 "definitionInAc": "كلب8",
                 "definitionInEn": "dog",
                 "sentence": "yesterday i saw dog",
-                "numbers": "1"
+                "numbers": "1",
+                "choices":["1",...],
             },
             {
                 "taskId": "64381c1e3c83a88a67f37658",
@@ -420,7 +356,8 @@ here status will be 200
                 "definitionInAc": "كلب9",
                 "definitionInEn": "dog",
                 "sentence": "yesterday i saw dog",
-                "numbers": "1"
+                "numbers": "1",
+                "choices":["1",...],
             },
             {
                 "taskId": "64381c213c83a88a67f3765a",
@@ -431,7 +368,8 @@ here status will be 200
                 "definitionInAc": "كلب10",
                 "definitionInEn": "dog",
                 "sentence": "yesterday i saw dog",
-                "numbers": "1"
+                "numbers": "1",
+                "choices":["1",...],
             },
             {
                 "taskId": "64381c243c83a88a67f3765c",
@@ -442,7 +380,8 @@ here status will be 200
                 "definitionInAc": "كلب11",
                 "definitionInEn": "dog",
                 "sentence": "yesterday i saw dog",
-                "numbers": "1"
+                "numbers": "1",
+                "choices":["1",...],
             },
             {
                 "taskId": "64381c273c83a88a67f3765e",
@@ -453,7 +392,93 @@ here status will be 200
                 "definitionInAc": "كلب12",
                 "definitionInEn": "dog",
                 "sentence": "yesterday i saw dog",
-                "numbers": "1"
+                "numbers": "1",
+                "choices":["1",...],
+            }
+        ]
+    },
+    {
+        "taskNumber": 2,
+        "gameName": [
+            "game1",
+            "game2"
+        ],
+        "done": [
+            false,
+            false
+        ],
+        "data": [
+            {
+                "taskId": "64381c183c83a88a67f37654",
+                "parentId": "6436d8f044bd5589e237d3b5",
+                "gradeNo": 1,
+                "subjectName": "en",
+                "imageUrl": "FSEimage\\dog_1681398808660.png",
+                "definitionInAc": "كلب7",
+                "definitionInEn": "dog",
+                "sentence": "yesterday i saw dog",
+                "numbers": "1",
+                "choices":["1",...],
+            },
+            {
+                "taskId": "64381c1b3c83a88a67f37656",
+                "parentId": "6436d8f044bd5589e237d3b5",
+                "gradeNo": 1,
+                "subjectName": "en",
+                "imageUrl": "FSEimage\\dog_1681398811355.png",
+                "definitionInAc": "كلب8",
+                "definitionInEn": "dog",
+                "sentence": "yesterday i saw dog",
+                "numbers": "1",
+                "choices":["1",...],
+            },
+            {
+                "taskId": "64381c1e3c83a88a67f37658",
+                "parentId": "6436d8f044bd5589e237d3b5",
+                "gradeNo": 1,
+                "subjectName": "en",
+                "imageUrl": "FSEimage\\dog_1681398814921.png",
+                "definitionInAc": "كلب9",
+                "definitionInEn": "dog",
+                "sentence": "yesterday i saw dog",
+                "numbers": "1",
+                "choices":["1",...],
+            },
+            {
+                "taskId": "64381c213c83a88a67f3765a",
+                "parentId": "6436d8f044bd5589e237d3b5",
+                "gradeNo": 1,
+                "subjectName": "en",
+                "imageUrl": "FSEimage\\dog_1681398817624.png",
+                "definitionInAc": "كلب10",
+                "definitionInEn": "dog",
+                "sentence": "yesterday i saw dog",
+                "numbers": "1",
+                "choices":["1",...],
+            },
+            {
+                "taskId": "64381c243c83a88a67f3765c",
+                "parentId": "6436d8f044bd5589e237d3b5",
+                "gradeNo": 1,
+                "subjectName": "en",
+                "imageUrl": "FSEimage\\dog_1681398820340.png",
+                "definitionInAc": "كلب11",
+                "definitionInEn": "dog",
+                "sentence": "yesterday i saw dog",
+                "numbers": "1",
+                "choices":["1",...],
+            },
+            {
+                "taskId": "64381c273c83a88a67f3765e",
+                "parentId": "6436d8f044bd5589e237d3b5",
+                "gradeNo": 1,
+                "subjectName": "en",
+                "imageUrl": "FSEimage\\dog_1681398823032.png",
+                "definitionInAc": "كلب12",
+                "definitionInEn": "dog",
+                "sentence": "yesterday i saw dog",
+                "numbers": "1",
+                "choices":["1",...],
             }
         ]
     }
