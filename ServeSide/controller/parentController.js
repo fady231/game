@@ -82,9 +82,7 @@ SignUp = function (req, res, next) {
 
 
 
-
-
-SignIn = function (req, res, next) {
+const SignIn = function (req, res, next) {
   User.findOne({ parentMail: req.body.mail })
     .select('parentName parentPassword parentMail profilePictureUrl _id parentPhoneNumber parentAge')
     .then((user) => {
@@ -107,7 +105,7 @@ SignIn = function (req, res, next) {
           }
 
           Student.find({ studentParent: user._id })
-            .select('studentName studentUserName studentAge studentPic studentGrade')
+            .select('_id studentName studentUserName studentAge studentPic studentGrade studentPassword')
             .then((children) => {
               const responseData = {
                 parent: {
@@ -119,7 +117,15 @@ SignIn = function (req, res, next) {
                   parentAge: user.parentAge,
                   parentProfilePic:user.profilePictureUrl
                 },
-                children: children.map(child => ({ _id: child._doc._id, ...child._doc, _id: undefined }))
+                children: children.map(child => ({ 
+                  _id: child._doc._id, 
+                  studentName: child._doc.studentName,
+                  studentUserName: child._doc.studentUserName,
+                  studentAge: child._doc.studentAge,
+                  studentPic: child._doc.studentPic,
+                  studentGrade: child._doc.studentGrade,
+                  studentPassword: child._doc.studentPassword,
+                 }))
               };
 
               res.status(200).json(responseData);
@@ -142,6 +148,7 @@ SignIn = function (req, res, next) {
       });
     });
 };
+
 
 
 

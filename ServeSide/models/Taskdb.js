@@ -6,6 +6,10 @@ const taskSchema = new mongoose.Schema({
     ref: "Student",
     required: true
   },
+  Subject: {
+    type: String,
+    required: true
+  },
   taskNumber: {
     type: Number,
     required: true,

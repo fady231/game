@@ -4,10 +4,10 @@ const Task = require("../models/Taskdb");
 
 AssignTask = async function (req, res, next) {
   try {
-    const { taskno, gamename, id1, id2, id3, id4, id5, id6 } = req.body;
+    const { taskno,subject, gamename, id1, id2, id3, id4, id5, id6 } = req.body;
 
     // Check if all required fields are present in the request body
-    if (!taskno || !gamename || !id1 || !id2 || !id3 || !id4 || !id5 || !id6) {
+    if (!taskno ||!subject|| !gamename || !id1 || !id2 || !id3 || !id4 || !id5 || !id6) {
       return res.status(400).json({
         status: "Missing required fields"
       });
@@ -33,6 +33,7 @@ AssignTask = async function (req, res, next) {
         studentID: req.params.id,
         taskNumber: taskno,
         gameName: gamename,
+        Subject:subject,
         done: false,
         data1ID: id1,
         data2ID: id2,
@@ -93,6 +94,7 @@ TakeTask = function (req, res, next) {
             // Create an object that contains the task number, game name, and data objects
             const taskDataObject = {
               taskNumber: task.taskNumber,
+              Subject:task.Subject,
               gameName: task.gameName,
               done: task.done,
               data: data.map(da => ({
