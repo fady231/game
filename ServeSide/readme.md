@@ -624,3 +624,23 @@ type:patch
 ```
 </details>
 ```
+
+```
+## for mobile to send a feedback
+```
+[machine host]/feedback
+
+request should be like this
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+JSON body
+{
+    "data1Attempts": 2,
+    "data2Attempts": 2,
+    "data3Attempts": 2,
+    "data4Attempts": 2,
+    "data5Attempts": 2,
+    "data6Attempts": 2
+}
+
+in url we should contain studentID, taskID, gameName respectevly
+[machine host]/feedback/:studentID/:taskID/:gameName
