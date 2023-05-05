@@ -115,11 +115,11 @@ TakeTask = function (req, res, next) {
               // Create an object that contains the task number, game name, and data objects
               const taskDataObject = {
                 taskNumber: task.taskNumber,
+                taskID:task._id,
                 Subject: task.Subject,
                 gameName: task.gameName,
                 done: task.done,
                 data: data.map((da) => ({
-                  taskId: da._doc._id,
                   dataId: da._doc._id, // Add the data ID to each object in the data array
                   ...da._doc,
                   _id: undefined,
