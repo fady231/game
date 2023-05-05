@@ -40,12 +40,14 @@ exports.postFeedback = async (req, res) => {
             data6Attempts,
         });
 
+        
         const task = await Task.findById( taskID );
         if (!task) {
             return res.status(404).json({
                 message: "Task not found!"
             });
         }
+        const gameIndex = task.gameName.indexOf(gameName);
         if (task.done[gameIndex]) {
             return res.status(400).json({
                 message: "Task already marked as done!"
@@ -54,7 +56,6 @@ exports.postFeedback = async (req, res) => {
 
         // console.log(task);
         
-        const gameIndex = task.gameName.indexOf(gameName);
         if (gameIndex === -1){
             throw new Error(`Game name ${gameName} not found in task ${taskID}`);
         }
