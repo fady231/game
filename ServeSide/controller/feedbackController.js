@@ -31,6 +31,7 @@ exports.postFeedback = async (req, res) => {
         const feedback = new Feedback({
             studentID,
             taskID,
+            gameName,
             data1Attempts,
             data2Attempts,
             data3Attempts,
@@ -45,11 +46,11 @@ exports.postFeedback = async (req, res) => {
                 message: "Task not found!"
             });
         }
-        // if (task.done) {
-        //     return res.status(400).json({
-        //         message: "Task already marked as done!"
-        //     });
-        // }
+        if (task.done[gameIndex]) {
+            return res.status(400).json({
+                message: "Task already marked as done!"
+            });
+        }
 
         // console.log(task);
         

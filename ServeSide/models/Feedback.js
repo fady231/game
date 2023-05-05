@@ -13,9 +13,9 @@ const FeedbackSchema = mongoose.Schema(
       ref: "Task",
       required: true,
     },
-    gameID: {
+    gameName: {
       type: String,
-      required: true,
+      required: false,
     },
     data1Attempts: {
       type: Number,
