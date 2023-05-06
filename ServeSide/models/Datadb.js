@@ -39,7 +39,7 @@ const Data = new mongoose.Schema(
       trim: true,
     },
     numbers: {
-      type: String,
+      type: Object,
       required: false,
       trim: true,
     },
