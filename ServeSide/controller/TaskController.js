@@ -112,7 +112,6 @@ TakeTask = function (req, res, next) {
           ) // Use projection to exclude fields
             .then((data) => {
               // Create an object that contains the task number, game name, and data objects
-              // Create an object that contains the task number, game name, and data objects
               const taskDataObject = {
                 taskId: task._id,
                 taskNumber: task.taskNumber,
@@ -120,7 +119,6 @@ TakeTask = function (req, res, next) {
                 gameName: task.gameName,
                 done: task.done,
                 data: data.map((da) => ({
-                  taskID,
                   dataId: da._doc._id, // Add the data ID to each object in the data array
                   ...da._doc,
                   _id: undefined,
