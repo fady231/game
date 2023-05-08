@@ -26,7 +26,7 @@ exports.AssignTask = async function (req, res, next) {
         status: "Missing required fields",
       });
     }
-   
+
     // Check if a task with the same taskNumber already exists for the same studentID
     // Find all tasks for the given student ID
     const existingTasks = await Task.find({
@@ -45,7 +45,7 @@ exports.AssignTask = async function (req, res, next) {
     } else {
       // Update the taskCounter field using the $inc operator
       const result = await Student.updateOne(
-        { _id: studentId },
+        { _id: req.params.id },
         { $inc: { taskCounter: 1 } }
       ); // Update the taskCounter field using the $inc operator
       // Either task number or student ID not found, there is no data
@@ -246,26 +246,28 @@ exports.DeleteTask = async function (req, res, next) {
   }
 };
 
-
 exports.getTasksByStudentId = async (req, res) => {
   const { studentID } = req.params;
   try {
-    const tasks = await Task.find({studentID}).populate('data1ID data2ID data3ID data4ID data5ID data6ID');
+    const tasks = await Task.find({ studentID }).populate(
+      "data1ID data2ID data3ID data4ID data5ID data6ID"
+    );
     if (tasks.length === 0) {
-      return res.status(404).json({ message: 'There is no tasks for this student.' });
+      return res
+        .status(404)
+        .json({ message: "There is no tasks for this student." });
     }
 
     console.log(tasks);
 
     res.status(200).json(tasks);
-
   } catch (err) {
     res.status(500).json({
-      message: 'Error sending task!',
-      error: err.message
+      message: "Error sending task!",
+      error: err.message,
     });
   }
-}
+};
 
 // get task by its id and student id
 exports.getTaskById = async (req, res) => {
@@ -273,17 +275,17 @@ exports.getTaskById = async (req, res) => {
   try {
     const task = await Task.findOne({ taskID });
     if (!task) {
-      res.status(404).json({ message:"This task isn't available" });
+      res.status(404).json({ message: "This task isn't available" });
     }
 
     res.json(task);
-  } catch(err) {
+  } catch (err) {
     res.status(500).json({
       message: "Error sending task",
-      error: err.message
-    })
+      error: err.message,
+    });
   }
-}
+};
 // module.exports = {
 //   AssignTask: AssignTask,
 //   TakeTask: TakeTask,
