@@ -1,7 +1,7 @@
 const Data = require("../models/Datadb");
 const Task = require("../models/Taskdb");
 
-AssignTask = async function (req, res, next) {
+exports.AssignTask = async function (req, res, next) {
   try {
     const { taskno, subject, gamename, id1, id2, id3, id4, id5, id6 } =
       req.body;
@@ -72,7 +72,7 @@ AssignTask = async function (req, res, next) {
   }
 };
 
-TakeTask = function (req, res, next) {
+exports.TakeTask = function (req, res, next) {
   Task.find({
     studentID: req.params.id,
   })
@@ -169,7 +169,7 @@ TakeTask = function (req, res, next) {
     });
 };
 
-updateTask = async function (req, res, next) {
+exports.updateTask = async function (req, res, next) {
   try {
     const { taskno, gamename, id1, id2, id3, id4, id5, id6 } = req.body;
 
@@ -217,7 +217,7 @@ updateTask = async function (req, res, next) {
   }
 };
 
-DeleteTask = async function (req, res, next) {
+exports.DeleteTask = async function (req, res, next) {
   try {
     const taskId = req.params.taskId;
 
@@ -240,7 +240,46 @@ DeleteTask = async function (req, res, next) {
   }
 };
 
-module.exports = {
-  AssignTask: AssignTask,
-  TakeTask: TakeTask,
-};
+
+exports.getTasksByStudentId = async (req, res) => {
+  const { studentID } = req.params;
+  try {
+    const tasks = await Task.find({studentID}).populate('data1ID data2ID data3ID data4ID data5ID data6ID');
+    if (tasks.length === 0) {
+      return res.status(404).json({ message: 'There is no tasks for this student.' });
+    }
+
+    console.log(tasks);
+
+    res.status(200).json(tasks);
+
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error sending task!',
+      error: err.message
+    });
+  }
+}
+
+// get task by its id and student id
+exports.getTaskById = async (req, res) => {
+  const { taskID } = req.params;
+  try {
+    const task = await Task.findOne({ taskID });
+    if (!task) {
+      res.status(404).json({ message:"This task isn't available" });
+    }
+
+    res.json(task);
+  } catch(err) {
+    res.status(500).json({
+      message: "Error sending task",
+      error: err.message
+    })
+  }
+}
+// module.exports = {
+//   AssignTask: AssignTask,
+//   TakeTask: TakeTask,
+//   getTasksByStudentId: this.getTasksByStudentId,
+// };

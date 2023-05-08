@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Data = require('./Datadb')
 const taskSchema = new mongoose.Schema(
   {
     studentID: {
@@ -24,33 +24,33 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
     data1ID: {
-      type: String,
-      ref: "Data1",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Data", // Reference to the data document
       required: true,
     },
     data2ID: {
-      type: String,
-      ref: "Data2",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Data", // Reference to the data document
       required: true,
     },
     data3ID: {
-      type: String,
-      ref: "Data3",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Data", // Reference to the data document
       required: true,
     },
     data4ID: {
-      type: String,
-      ref: "Data4",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Data", // Reference to the data document
       required: true,
     },
     data5ID: {
-      type: String,
-      ref: "Data5",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Data", // Reference to the data document
       required: true,
     },
     data6ID: {
-      type: String,
-      ref: "Data6",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Data", // Reference to the data document
       required: true,
     },
   },

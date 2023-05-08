@@ -9,7 +9,7 @@ const FeedbackSchema = mongoose.Schema(
       required: true,
     },
     taskID: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Task",
       required: true,
     },
