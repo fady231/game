@@ -76,7 +76,8 @@ here you will resevie status: 200
             "studentUserName": "fady",
             "studentAge": 9,
             "studentPic": "Profile/default.png",
-            "studentGrade": 1
+            "studentGrade": 1,
+             " taskCounter": 3,: 
         }
     ]
 }
