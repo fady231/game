@@ -36,6 +36,10 @@ const StudentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  taskCounter: {
+      type: Number,
+      default: 0,
+    },
 });
 
 module.exports = mongoose.model("students", StudentSchema);

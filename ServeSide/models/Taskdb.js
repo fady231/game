@@ -53,10 +53,7 @@ const taskSchema = new mongoose.Schema(
       ref: "Data", // Reference to the data document
       required: true,
     },
-    taskCounter: {
-      type: Number,
-      default: 0,
-    },
+    
   },
   { timestamps: true }
 );

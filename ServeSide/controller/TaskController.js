@@ -1,5 +1,6 @@
 const Data = require("../models/Datadb");
 const Task = require("../models/Taskdb");
+const Student = require("../models/studentdb");
 
 exports.AssignTask = async function (req, res, next) {
   try {
@@ -46,6 +47,11 @@ exports.AssignTask = async function (req, res, next) {
         status: "taskNumber already exists for the same studentID",
       });
     } else {
+      // Update the taskCounter field using the $inc operator
+      const result = await Student.updateOne(
+        { _id: studentId },
+        { $inc: { taskCounter: 1 } }
+      ); // Update the taskCounter field using the $inc operator
       // Either task number or student ID not found, there is no data
 
       const task = new Task({
@@ -60,7 +66,6 @@ exports.AssignTask = async function (req, res, next) {
         data4ID: id4,
         data5ID: id5,
         data6ID: id6,
-        taskCounter: latestTaskCount.taskCounter + 1,
       });
 
       await task.save();
