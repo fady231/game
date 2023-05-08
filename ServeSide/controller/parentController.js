@@ -108,7 +108,7 @@ const SignIn = function (req, res, next) {
           }
 
           Student.find({ studentParent: user._id })
-            .select('_id studentName studentUserName studentAge studentPic studentGrade studentPassword')
+            .select('_id studentName studentUserName studentAge studentPic studentGrade studentPassword taskCounter')
             .then((children) => {
               const responseData = {
                 parent: {
