@@ -53,6 +53,10 @@ const taskSchema = new mongoose.Schema(
       ref: "Data6",
       required: true,
     },
+    taskCounter: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

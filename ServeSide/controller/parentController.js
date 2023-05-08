@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const multer = require("multer");
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const Task = require("../models/Taskdb");
 
 
 
@@ -83,6 +84,17 @@ SignUp = function (req, res, next) {
 
 
 const SignIn = function (req, res, next) {
+  let resultObj = {};
+
+  Task.findOne({ studentID: req.params.id }, { _id: 0, __v: 0 })
+    .select("taskCounter")
+    .then((latestTaskCount) => {
+      resultObj = latestTaskCount;
+    })
+    .catch((err) => {
+      res.status(404).json({ message: err });
+    });
+
   User.findOne({ parentMail: req.body.mail })
     .select('parentName parentPassword parentMail profilePictureUrl _id parentPhoneNumber parentAge')
     .then((user) => {
@@ -115,17 +127,18 @@ const SignIn = function (req, res, next) {
                   parentMail: user.parentMail,
                   parentPhoneNumber: user.parentPhoneNumber,
                   parentAge: user.parentAge,
-                  parentProfilePic:user.profilePictureUrl
+                  parentProfilePic: user.profilePictureUrl,
                 },
-                children: children.map(child => ({ 
-                  _id: child._doc._id, 
+                children: children.map((child) => ({
+                  _id: child._doc._id,
                   studentName: child._doc.studentName,
                   studentUserName: child._doc.studentUserName,
                   studentAge: child._doc.studentAge,
                   studentPic: child._doc.studentPic,
                   studentGrade: child._doc.studentGrade,
                   studentPassword: child._doc.studentPassword,
-                 }))
+                  childTasksNumber: resultObj.taskCounter,
+                })),
               };
 
               res.status(200).json(responseData);

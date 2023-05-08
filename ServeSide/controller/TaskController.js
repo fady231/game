@@ -25,7 +25,11 @@ AssignTask = async function (req, res, next) {
         status: "Missing required fields",
       });
     }
-
+    // Get the latest task in the database for the specific studentID
+    const latestTaskCount = await Task.findOne(
+      { studentID: req.params.id },
+      { _id: 0, __v: 0 }
+    ).select("taskCounter");
     // Check if a task with the same taskNumber already exists for the same studentID
     // Find all tasks for the given student ID
     const existingTasks = await Task.find({
@@ -56,6 +60,7 @@ AssignTask = async function (req, res, next) {
         data4ID: id4,
         data5ID: id5,
         data6ID: id6,
+        taskCounter: latestTaskCount.taskCounter + 1,
       });
 
       await task.save();
