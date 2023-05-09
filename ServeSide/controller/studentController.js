@@ -9,8 +9,11 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, call) {
     if (req.body.worden) {
-      call(null, req.body.worden.replace(/\.[^/.]+$/, "") + "_" + Date.now() + ".png");
-    } 
+      call(
+        null,
+        req.body.worden.replace(/\.[^/.]+$/, "") + "_" + Date.now() + ".png"
+      );
+    }
   },
 });
 
@@ -64,6 +67,7 @@ AddChild = function (req, res, next) {
                       studentUserName: result.studentUserName,
                       studentPassword: result.studentPassword,
                       studentGrade: result.studentGrade,
+                      taskCounter: result.taskCounter,
                     },
                   });
                 })
@@ -98,8 +102,12 @@ AddChild = function (req, res, next) {
 
 const StudentSignIn = async (req, res, next) => {
   try {
-    const student = await Student.findOne({ studentUserName: req.body.username }).select("_id studentName studentPassword studentAge studentPic studentGrade studentParent");
-    
+    const student = await Student.findOne({
+      studentUserName: req.body.username,
+    }).select(
+      "_id studentName studentPassword studentAge studentPic studentGrade studentParent"
+    );
+
     if (!student) {
       return res.status(404).json({
         student: {
@@ -129,7 +137,6 @@ const StudentSignIn = async (req, res, next) => {
         },
       });
     }
-
   } catch (error) {
     console.error(error);
     res.status(500).json({
