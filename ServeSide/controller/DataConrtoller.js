@@ -32,6 +32,7 @@ InsertData = function (req, res, next) {
     sentence: req.body.sentence,
     numbers: req.body.number,
     choices: req.body.choices ? req.body.choices : [],
+    type: req.body.type ? req.body.type : "word",
   };
 
   // If there is a file in the request, add the imageUrl to the data object

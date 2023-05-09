@@ -47,6 +47,11 @@ const Data = new mongoose.Schema(
       type: Array,
       required: false,
     },
+    type: {
+      type: String,
+      required: false,
+      default: "word",
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields to the document
