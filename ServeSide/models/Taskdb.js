@@ -24,32 +24,32 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
     data1ID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Data", // Reference to the data document
       required: true,
     },
     data2ID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Data", // Reference to the data document
       required: true,
     },
     data3ID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Data", // Reference to the data document
       required: true,
     },
     data4ID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Data", // Reference to the data document
       required: true,
     },
     data5ID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Data", // Reference to the data document
       required: true,
     },
     data6ID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Data", // Reference to the data document
       required: true,
     },
