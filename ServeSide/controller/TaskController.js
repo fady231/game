@@ -1,31 +1,30 @@
 const Data = require("../models/Datadb");
 const Task = require("../models/Taskdb");
 const Student = require("../models/studentdb");
+const Joi = require("joi");
 
 exports.AssignTask = async function (req, res, next) {
   try {
+    // Check if all required fields are present in the request body
+    const schema = Joi.object({
+      taskno: Joi.number().required(),
+      subject: Joi.string().required(),
+      gamename: Joi.array().required(),
+      id1: Joi.objectId().required(),
+      id2: Joi.objectId().required(),
+      id3: Joi.objectId().required(),
+      id4: Joi.objectId().required(),
+      id5: Joi.objectId().required(),
+      id6: Joi.objectId().required(),
+    });
+    const { error } = schema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
     const { taskno, subject, gamename, id1, id2, id3, id4, id5, id6 } =
       req.body;
 
     const done = [];
     gamename.forEach(() => done.push(false));
-
-    // Check if all required fields are present in the request body
-    if (
-      !taskno ||
-      !subject ||
-      !gamename ||
-      !id1 ||
-      !id2 ||
-      !id3 ||
-      !id4 ||
-      !id5 ||
-      !id6
-    ) {
-      return res.status(400).json({
-        status: "Missing required fields",
-      });
-    }
 
     // Check if a task with the same taskNumber already exists for the same studentID
     // Find all tasks for the given student ID
@@ -71,9 +70,9 @@ exports.AssignTask = async function (req, res, next) {
       });
     }
   } catch (err) {
-    res.status(500).json({
+    res.status(500).send({
       status: "Error assigning task",
-      error: err,
+      error: err.message,
     });
   }
 };
