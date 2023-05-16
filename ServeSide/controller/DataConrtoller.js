@@ -30,7 +30,10 @@ InsertData = function (req, res, next) {
       grade: Joi.number().min(1).max(12).required(),
       subject: Joi.string().required(),
     });
-    const { error } = Schema.validate(req.body);
+    const { error } = Schema.validate({
+      grade: req.body.grade,
+      subject: req.body.subject,
+    });
     if (error) return res.status(400).send(error.details[0].message);
 
     let dataObj = {
