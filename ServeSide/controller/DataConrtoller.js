@@ -1,4 +1,6 @@
 const Data = require("../models/Datadb");
+const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 const FBQuestion = require("../models/Feedback");
 const multer = require("multer");
@@ -23,37 +25,54 @@ const upload = multer({
 
 // Combined endpoint for inserting data with or without picture
 InsertData = function (req, res, next) {
-  let dataObj = {
-    parentId: req.params.id,
-    gradeNo: req.body.grade,
-    subjectName: req.body.subject,
-    definitionInAc: req.body.wordar,
-    definitionInEn: req.body.worden,
-    sentence: req.body.sentence,
-    numbers: req.body.number,
-    choices: req.body.choices ? req.body.choices : [],
-    type: req.body.type ? req.body.type : "word",
-  };
-
-  // If there is a file in the request, add the imageUrl to the data object
-  if (req.file) {
-    dataObj.imageUrl = req.file.path;
-  }
-
-  const data = Data(dataObj);
-
-  data
-    .save()
-    .then((inserting) => {
-      res.status(200).json({
-        status: "inserting question succssufully",
-      });
-    })
-    .catch((err) => {
-      res.status(404).json({
-        massage: err,
-      });
+  try {
+    const Schema = Joi.object({
+      grade: Joi.number().min(1).max(12).required(),
+      subject: Joi.string().required(),
+      wordar: Joi.string(),
+      worden: Joi.string(),
+      sentence: Joi.string(),
+      number: Joi.object(),
+      choices: Joi.array(),
+      type: Joi.string(),
     });
+    const { error } = Schema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    let dataObj = {
+      parentId: req.params.id,
+      gradeNo: req.body.grade,
+      subjectName: req.body.subject,
+      definitionInAc: req.body.wordar,
+      definitionInEn: req.body.worden,
+      sentence: req.body.sentence,
+      numbers: req.body.number,
+      choices: req.body.choices ? req.body.choices : [],
+      type: req.body.type ? req.body.type : "word",
+    };
+
+    // If there is a file in the request, add the imageUrl to the data object
+    if (req.file) {
+      dataObj.imageUrl = req.file.path;
+    }
+
+    const data = Data(dataObj);
+
+    data
+      .save()
+      .then((inserting) => {
+        res.status(200).json({
+          status: "inserting question succssufully",
+        });
+      })
+      .catch((err) => {
+        res.status(404).json({
+          massage: err,
+        });
+      });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 };
 
 TakeData = async function (req, res, next) {
