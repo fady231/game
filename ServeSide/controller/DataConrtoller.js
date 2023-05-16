@@ -29,12 +29,6 @@ InsertData = function (req, res, next) {
     const Schema = Joi.object({
       grade: Joi.number().min(1).max(12).required(),
       subject: Joi.string().required(),
-      wordar: Joi.string(),
-      worden: Joi.string(),
-      sentence: Joi.string(),
-      number: Joi.object(),
-      choices: Joi.array(),
-      type: Joi.string(),
     });
     const { error } = Schema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -56,7 +50,7 @@ InsertData = function (req, res, next) {
       dataObj.imageUrl = req.file.path;
     }
 
-    const data = Data(dataObj);
+    const data = new Data(dataObj);
 
     data
       .save()
