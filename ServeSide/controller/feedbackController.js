@@ -142,3 +142,73 @@ exports.getFeedback = async (req, res) => {
         });
     }
 };
+
+exports.getAllFeedbackWithData = async (req, res) => {
+    const { studentID } = req.params;
+    try {
+        const feedbacks = await Feedback.find({ studentID })
+          .populate({
+            path: 'taskID',
+            populate: [
+              { path: 'data1ID', model: 'Data' },
+              { path: 'data2ID', model: 'Data' },
+              { path: 'data3ID', model: 'Data' },
+              { path: 'data4ID', model: 'Data' },
+              { path: 'data5ID', model: 'Data' },
+              { path: 'data6ID', model: 'Data' }
+            ]
+          });
+
+        const modifiedFeedback = feedbacks.map((feedback) => {
+            const modifiedData = {
+                subject: feedback.taskID.Subject,
+                taskNumber: feedback.taskID.taskNumber,
+                data1: {
+                    data: getModifiedData(feedback.taskID.data1ID),
+                    attempts: feedback.data1Attempts
+                },
+                data2: {
+                    data: getModifiedData(feedback.taskID.data2ID),
+                    attempts: feedback.data2Attempts
+                },
+                data3: {
+                    data: getModifiedData(feedback.taskID.data3ID),
+                    attempts: feedback.data3Attempts
+                },
+                data4: {
+                    data: getModifiedData(feedback.taskID.data4ID),
+                    attempts: feedback.data4Attempts
+                },
+                data5: {
+                    data: getModifiedData(feedback.taskID.data5ID),
+                    attempts: feedback.data5Attempts
+                },
+                data6: {
+                    data: getModifiedData(feedback.taskID.data6ID),
+                    attempts: feedback.data6Attempts
+                },
+            };
+            return modifiedData
+        });
+            console.log(modifiedFeedback)
+            res.json(modifiedFeedback);
+        } catch (err) {
+            res.status(500).json({
+                message: "Error sending feedback!",
+                error: err.message
+            });
+        }
+}
+
+function getModifiedData(data) {
+    const modifiedFields = {};
+
+    if (data.subjectName === "English") {
+        modifiedFields.definitionInEn = definitionInEn;
+    } else if (data.subjectName === "Math") {
+        modifiedFields.numbers = numbers;
+    }
+    return {
+        ...modifiedFields
+    }
+}
