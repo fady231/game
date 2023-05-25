@@ -11,6 +11,7 @@ exports.getAllFeedback = async (req, res) => {
     // Validate if studentID exists in the database
     try{
         const student = await Student.findById(studentID);
+        console.log(student)
         if (!student) {
             return res.status(404).json({ message: "This student cannot be found!" });
         }
@@ -145,6 +146,18 @@ exports.getFeedback = async (req, res) => {
 
 exports.getAllFeedbackWithData = async (req, res) => {
     const { studentID } = req.params;
+
+    // Validate if studentID exists in the database
+    try{
+        const student = await Student.findById(studentID);
+        console.log(student)
+        if (!student) {
+            return res.status(404).json({ message: "This student cannot be found!" });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+
     try {
         const feedbacks = await Feedback.find({ studentID })
           .populate({
@@ -163,6 +176,7 @@ exports.getAllFeedbackWithData = async (req, res) => {
             const modifiedData = {
                 subject: feedback.taskID.Subject,
                 taskNumber: feedback.taskID.taskNumber,
+                gameName: feedback.gameName,
                 data1: {
                     data: getModifiedData(feedback.taskID.data1ID),
                     attempts: feedback.data1Attempts
@@ -200,15 +214,91 @@ exports.getAllFeedbackWithData = async (req, res) => {
         }
 }
 
+// helper function to manilpualte the data returned
 function getModifiedData(data) {
-    const modifiedFields = {};
+    const { definitionInEn, numbers, sentence } = data;
 
-    if (data.subjectName === "English") {
-        modifiedFields.definitionInEn = definitionInEn;
-    } else if (data.subjectName === "Math") {
-        modifiedFields.numbers = numbers;
+    if (data.subjectName === ("english" || "en")) {
+
+        if(!sentence) {
+            return definitionInEn;
+
+        } else if (!definitionInEn) {
+            return sentence;
+        } else {
+            return {
+                definitionInEn,
+                sentence
+            };
+        }
+
+    } else if (data.subjectName === ("math")) {
+        return numbers;
     }
-    return {
-        ...modifiedFields
+}
+
+exports.getFeedbackByTaskId = async (req, res) => {
+    const { studentID, taskID } = req.params;
+
+    // Validate if studentID exists in the database
+    try{
+        const student = await Student.findById(studentID);
+        if (!student) {
+            return res.status(404).json({ message: "This student cannot be found!" });
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+    try {
+        const task = await Task.findOne({ taskID, studentID }).populate('data1ID data2ID data3ID data4ID data5ID data6ID');
+        const feedbacks = await Feedback.find({ studentID, taskID });
+        console.log(feedbacks);
+        if (!feedbacks) {
+            return res.status(404).json({ message: "Feedback doesn't exist yet." });
+        }
+        if (!task) {
+            return res.status(404).json({ message: "Task not found." });
+        }
+        const modifiedFeedback = feedbacks.map((feedback) => {
+            const data = {
+                subject: task.Subject,
+                taskNumber: task.taskNumber,
+                gameName: feedback.gameName,
+                data1: {
+                    data: getModifiedData(task.data1ID),
+                    attempts: feedback.data1Attempts,
+                },
+                data2: {
+                    data: getModifiedData(task.data2ID),
+                    attempts: feedback.data2Attempts,
+                },
+                data3: {
+                    data: getModifiedData(task.data3ID),
+                    attempts: feedback.data3Attempts,
+                },
+                data4: {
+                    data: getModifiedData(task.data4ID),
+                    attempts: feedback.data4Attempts,
+                },
+                data5: {
+                    data: getModifiedData(task.data5ID),
+                    attempts: feedback.data5Attempts,
+                },
+                data6: {
+                    data: getModifiedData(task.data6ID),
+                    attempts: feedback.data6Attempts,
+                }
+            };
+            return data;
+        })
+        
+        res.json(modifiedFeedback);
+    } catch (err) {
+        res.status(500).json({
+            message: "Error sending feedback!",
+            error: err.message
+        });
     }
 }
