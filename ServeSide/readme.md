@@ -77,7 +77,7 @@ here you will resevie status: 200
             "studentAge": 9,
             "studentPic": "Profile/default.png",
             "studentGrade": 1,
-             " taskCounter": 3,: 
+             " taskCounter": 3,:
         }
     ]
 }
@@ -654,19 +654,94 @@ type:patch
 ```
 ## for mobile to send a feedback
 ```
+
 [machine host]/feedback
 
 request should be like this
 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 JSON body
 {
-    "data1Attempts": 2,
-    "data2Attempts": 2,
-    "data3Attempts": 2,
-    "data4Attempts": 2,
-    "data5Attempts": 2,
-    "data6Attempts": 2
+"data1Attempts": 2,
+"data2Attempts": 2,
+"data3Attempts": 2,
+"data4Attempts": 2,
+"data5Attempts": 2,
+"data6Attempts": 2
 }
 
 in url we should contain studentID, taskID, gameName respectevly
 [machine host]/feedback/:studentID/:taskID/:gameName
+
+---
+
+### to get brief feedback
+
+```
+api--> [machine host]/feedback/:studentID
+
+method: GET
+
+response:
+[
+    {
+        "id": "646fe738d7854f00d2fb0386",
+        "taskID": "646fe645d7854f00d2fb0381",
+        "taskNumber": 1,
+        "subject": "math",
+        "gameName": [
+            "3",
+            "4"
+        ]
+    },
+    {
+        "id": "646fe85dd7854f00d2fb03a9",
+        "taskID": "646fe82dd7854f00d2fb03a4",
+        "taskNumber": 2,
+        "subject": "english",
+        "gameName": [
+            "5"
+        ]
+    }
+]
+```
+
+### to get detailed feedback
+
+```
+api--> [machine host]/feedback/:studentID/:taskID
+
+method: GET
+
+response:
+[
+    {
+        "gameName": "0",
+        "data": [
+            {
+                "word": "door",
+                "attempts": 0
+            },
+            {
+                "word": "apple",
+                "attempts": 0
+            },
+            {
+                "word": "egg",
+                "attempts": 0
+            },
+            {
+                "word": "bat",
+                "attempts": 0
+            },
+            {
+                "word": "cat",
+                "attempts": 1
+            },
+            {
+                "word": "fork",
+                "attempts": 0
+            }
+        ]
+    }
+]
+```
