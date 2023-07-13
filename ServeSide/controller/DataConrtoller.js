@@ -89,9 +89,7 @@ TakeData = async function (req, res, next) {
       subjectName: req.body.subject,
     });
     if (data < 1) {
-      res
-        .status(404)
-        .json({ data: "no iserting data for this grade or this subject" });
+      res.status(200).json([]);
     } else {
       res.status(200).send(data);
     }
